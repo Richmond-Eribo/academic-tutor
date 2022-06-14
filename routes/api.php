@@ -21,12 +21,17 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/user/register', [UserController::class, 'store'])->middleware('guest'); // === route to signup
+Route::post('/user/login', [AuthController::class, 'login'])->middleware('guest')->name('login'); // route to login
+
+// axios.get('/sanctum/csrf-cookie').then(response => {
+//     // Login...
+// });
 
 Route::group([
-    'middleware' => ['api', 'auth:sanctum'],
+    'middleware' => ['api', 'auth:sanctum'],                            
     'prefix' => 'user'
     ], function () {
-        Route::post('/login', [AuthController::class, 'login']); // route to login
         Route::post('/logout', [AuthController::class, 'logout']); // route to logout
         Route::get('/', [UserController::class, 'showAll']); // route to get all users
         Route::get('/{id}', [UserController::class, 'showOne']); // route to get user by id
@@ -37,7 +42,7 @@ Route::group([
 );
 
 Route::group([
-    'middleware' => ['api', 'auth:sanctum', 'is.admin'],
+    'middleware' => ['auth:sanctum', 'is.admin'],
     'prefix' => 'admin'
     ], function () {
         Route::post('delete-user/{id}', [UserController::class, 'destroy']); //route to delete user
@@ -68,7 +73,6 @@ Route::group([
     }
 );
 
-Route::post('/user/register', [UserController::class, 'store'])->middleware('guest'); // route to signup
 
 
 

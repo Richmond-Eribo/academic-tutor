@@ -15,7 +15,7 @@ class AuthController extends Controller
      */
     public function __construct() 
     {
-        $this->middleware(['auth:api', 'auth:sanctum'], ['except' => ['login', 'register']]);
+        // $this->middleware(['auth:api', 'auth:sanctum'], ['except' => ['login', 'register']]);
         return response()->json(['valid' => Auth()->check()]);
     }
 
@@ -38,10 +38,12 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        // Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return response([
+            'message' => 'Logout OK'
+        ], Response::HTTP_ACCEPTED);
     }
 }

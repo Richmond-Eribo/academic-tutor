@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\UserSignedUp;
 use App\Events\UserUpdated;
 use App\Models\User;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -61,10 +60,10 @@ class UserController extends Controller
      *
      * @param  string $email
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return void
      */
     public function uploadFile($filename, $file) {
-        return Storage::disk('local')->put($filename, $file);
+        Storage::disk('local')->put($filename, $file);
     }
 
 
@@ -100,16 +99,13 @@ class UserController extends Controller
      *
      * @param  string $filename
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return void
      */
     public function deleteFile($filename) {
         if(Storage::disk('local')->exists($filename)) {
-            return Storage::disk('local')->delete($filename);;
+            Storage::disk('local')->delete($filename); 
         }
-
-        return response()->json([
-            'error' => 'file does not exist'
-        ]);
+        
     }
 
     /**
@@ -184,10 +180,14 @@ class UserController extends Controller
         $user->role = $request->input('role') ? $request->input('role') : $user->role;
         $user->password = $request->input('password') ? Hash::make($request->input('password')) : $user->password;
 
+        
+        
+        
         if($request->file('permit_or_id')) {
             $old_permitOrId_fileName = $user->permit_or_id;
             $permitOrId = $request->file('permit_or_id');
             $new_permitOrId_fileName = 'permit_id/'.time().'_'.$email.'_'.$permitOrId->getClientOriginalName();
+            $user->permit_or_id = $new_permitOrId_fileName;
             $this->updateFile($old_permitOrId_fileName, $new_permitOrId_fileName, $permitOrId);
         }
 
@@ -195,6 +195,7 @@ class UserController extends Controller
             $old_signature_fileName = $user->signature;
             $signature = $request->file('signature');
             $new_signature_fileName = 'signature/'.time().'_'.$email.'_'.$signature->getClientOriginalName();
+            $user->signature = $new_signature_fileName;
             $this->updateFile($old_signature_fileName, $new_signature_fileName, $signature);
         }
 
@@ -202,6 +203,7 @@ class UserController extends Controller
             $old_profilePicture_fileName = $user->profile_picture;
             $profilePicture = $request->file('profile_picture');
             $new_profilePicture_fileName = 'profile_picture/'.time().'_'.$email.'_'.$profilePicture->getClientOriginalName();
+            $user->profile_picture = $new_profilePicture_fileName;
             $this->updateFile($old_profilePicture_fileName, $new_profilePicture_fileName, $profilePicture);
         }
 
