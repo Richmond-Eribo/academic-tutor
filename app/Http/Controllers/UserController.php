@@ -83,10 +83,9 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function downloadFile($filename) {
+    public function downloadFile($filename) { // ===not functional
         if(Storage::disk('local')->exists($filename)) {
-            $file = Storage::disk('local')->get($filename);
-            return response()->download($file, $filename);
+            return Storage::download($filename);
         }
 
         return response()->json([
@@ -101,7 +100,7 @@ class UserController extends Controller
      * 
      * @return void
      */
-    public function deleteFile($filename) {
+    public function deleteFile($filename) { // ===not functional
         if(Storage::disk('local')->exists($filename)) {
             Storage::disk('local')->delete($filename); 
         }
@@ -115,7 +114,7 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getFile($filename) {
+    public function getFile($filename) { // ===not functional
         if(Storage::disk('local')->exists($filename)) {
             $file = Storage::disk('local')->get($filename);
 

@@ -33,8 +33,13 @@ class TeacherController extends Controller
     {
         $teacher = User::where('role', 'teacher')
                     ->where('id', $id)
-                    ->get();
-
+                    ->first();
+                    
+        if(!$teacher) {
+            return response()->json([
+                'message' => 'Not a Teacher'
+            ]);
+        }
         return response()->json($teacher);
     }
 
@@ -44,10 +49,15 @@ class TeacherController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function verify($id)
-    {
+    {               ;
         $teacher = User::where('role', 'teacher')
                     ->where('id', $id)
                     ->first();
+        if(!$teacher) {
+            return response()->json([
+                'message' => 'Not a Teacher'
+            ]);
+        }
 
         $teacher->verified = 1;
         if($teacher->save()) {

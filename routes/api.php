@@ -29,7 +29,7 @@ Route::post('/user/login', [AuthController::class, 'login'])->middleware('guest'
 // });
 
 Route::group([
-    'middleware' => ['api', 'auth:sanctum'],                            
+    'middleware' => ['api', 'auth:sanctum'],
     'prefix' => 'user'
     ], function () {
         Route::post('/logout', [AuthController::class, 'logout']); // route to logout
@@ -57,8 +57,8 @@ Route::group([
     'prefix' => 'teacher'
     ], function () {
           Route::get('/', [TeacherController::class, 'showAll']); //route to get all teachers
-          Route::get('/{id}', [TeacherController::class, 'showOne']); // route to get teacher by id
           Route::get('/verified', [TeacherController::class, 'showAllVerified']); // route to get all verified teachers
+          Route::get('/{id}', [TeacherController::class, 'showOne']); // route to get teacher by id
           Route::get('/verified/{id}', [TeacherController::class, 'showOneVerified']); // route to get verified teacher by id
           Route::get('/unverified', [TeacherController::class, 'showAllNotVerified']); // route to get all unverified teachers
           Route::get('/unverified/{id}', [TeacherController::class, 'showOneNotVerified']); // route to get unverified teacher by id

@@ -16,9 +16,12 @@ class ParentController extends Controller
     {
         $parents = User::where('role', 'parent')->get();
 
-        if($parents) {
-            return response()->json($parents);
+        if(!$parents) {
+            return response()->json([
+                'message' => 'Not a Parent'
+            ]);
         }
+        return response()->json($parents);
     }
 
     
@@ -35,8 +38,11 @@ class ParentController extends Controller
                     ->where('id', $id)
                     ->get();
 
-        if($parent) {
-            return response()->json($parent);
+        if(!$parent) {
+            return response()->json([
+                'message' => 'Not a Parent'
+            ]);
         }
+        return response()->json($parent);
     }
 }
