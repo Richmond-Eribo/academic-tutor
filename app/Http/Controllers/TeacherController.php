@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\TeacherUnVerified;
 use App\Events\TeacherVerified;
+use App\Models\TeacherCredential;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -34,36 +35,13 @@ class TeacherController extends Controller
         $teacher = User::where('role', 'teacher')
                     ->where('id', $id)
                     ->first();
-                    
+
         if(!$teacher) {
             return response()->json([
                 'message' => 'Not a Teacher'
             ]);
         }
         return response()->json($teacher);
-    }
-
-    /**
-     * Verify Teacher.
-     * 
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function verify($id)
-    {               ;
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
-            return response()->json([
-                'message' => 'Not a Teacher'
-            ]);
-        }
-
-        $teacher->verified = 1;
-        if($teacher->save()) {
-            TeacherVerified::dispatch($teacher);
-            return response()->json($teacher);
-        }
     }
 
 
@@ -74,9 +52,8 @@ class TeacherController extends Controller
      */
     public function showAllVerified()
     {
-        $verified_teachers = User::where('role', 'teacher')
-                    ->where('verified', 1)
-                    ->get();
+        $verified_teachers = TeacherCredential::where('verified', true)
+                                                ->get();
 
         return response()->json($verified_teachers);
     }
@@ -91,31 +68,16 @@ class TeacherController extends Controller
      */
     public function showOneVerified($id)
     {
-        $verified_teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->where('verified', 1)
-                    ->get();
-
-        return response()->json($verified_teacher);
-    }
-
-
-    /**
-     * Unverify Teacher.
-     * 
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function unverify($id)
-    {
         $teacher = User::where('role', 'teacher')
                     ->where('id', $id)
                     ->first();
 
-        $teacher->verified = 0;
-        if($teacher->save()) {
-            TeacherUnVerified::dispatch($teacher);
-            return response()->json($teacher);
-        }
+        $verified_teacher = TeacherCredential::where('email', $teacher->email)
+                    ->where('verified', true)
+                    ->first();
+        
+
+        return response()->json($verified_teacher);
     }
 
 
@@ -126,11 +88,10 @@ class TeacherController extends Controller
      */
     public function showAllNotVerified()
     {
-        $not_verified_teachers = User::where('role', 'teacher')
-                    ->where('verified', 0)
-                    ->get();
+        $verified_teachers = TeacherCredential::where('verified', false)
+                                                ->get();
 
-        return response()->json($not_verified_teachers);
+        return response()->json($verified_teachers);
     }
 
 
@@ -143,12 +104,15 @@ class TeacherController extends Controller
      */
     public function showOneNotVerified($id)
     {
-        $not_verified_teacher = User::where('role', 'teacher')
+        $teacher = User::where('role', 'teacher')
                     ->where('id', $id)
-                    ->where('verified', 0)
-                    ->get();
+                    ->first();
 
-        return response()->json($not_verified_teacher);
+        $verified_teacher = TeacherCredential::where('email', $teacher->email)
+                    ->where('verified', true)
+                    ->first();
+                    
+        return response()->json($verified_teacher);
     }
 
 }

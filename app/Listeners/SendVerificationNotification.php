@@ -27,7 +27,7 @@ class SendVerificationNotification
      */
     public function handle(TeacherVerified $event)
     {
-        $teacher = $event->teacher;
+        $teacher = $event->user;
 
         $teacher->notify(new VerificationNotification($teacher));
     }

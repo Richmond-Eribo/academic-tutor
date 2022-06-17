@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TeacherCredentialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -15,18 +16,28 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
+
+
+| To authenticate your SPA, your SPA's "login" page should first make a request 
+| to the /sanctum/csrf-cookie endpoint to initialize CSRF protection for the application:
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| axios.get('/sanctum/csrf-cookie').then(response => {
+|    // Login...
+| });
+|
+| During this request, Laravel will set an XSRF-TOKEN cookie containing the current CSRF token.
+| This token should then be passed in an X-XSRF-TOKEN header on subsequent requests,
+| which some HTTP client libraries like Axios and the Angular HttpClient will do automatically for you.
+| If your JavaScript HTTP library does not set the value for you, 
+| you will need to manually set the X-XSRF-TOKEN header to match 
+| the value of the XSRF-TOKEN cookie that is set by this route.
 |
 */
+
+
 Route::post('/user/register', [UserController::class, 'store'])->middleware('guest'); // === route to signup
 Route::post('/user/login', [AuthController::class, 'login'])->middleware('guest')->name('login'); // route to login
-
-// axios.get('/sanctum/csrf-cookie').then(response => {
-//     // Login...
-// });
+Route::post('/user/exist/{email}', [UserController::class, 'exist'])->middleware('guest'); // Check if User exist
 
 Route::group([
     'middleware' => ['api', 'auth:sanctum'],
@@ -46,8 +57,28 @@ Route::group([
     'prefix' => 'admin'
     ], function () {
         Route::post('delete-user/{id}', [UserController::class, 'destroy']); //route to delete user
-        Route::post('verify-teacher/{id}', [TeacherController::class, 'verify']); // route to verify user
-        Route::post('unverify-teacher/{id}', [TeacherController::class, 'unverify']); // route to unverify user
+        
+        // below are route to verify teacher credentials
+        Route::post('verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
+        Route::post('verify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'dbs_certificate']);
+        Route::post('verify-teacher/educational-qualification/{id}', [TeacherCredentialController::class, 'educational_qualification']);
+        Route::post('verify-teacher/qts/{id}', [TeacherCredentialController::class, 'qts']);
+        Route::post('verify-teacher/passport-or-driver-license/{id}', [TeacherCredentialController::class, 'passport_id_or_driver_license']);
+        Route::post('verify-teacher/passport-photo/{id}', [TeacherCredentialController::class, 'passport_photo']);
+        Route::post('verify-teacher/proof-of-address/{id}', [TeacherCredentialController::class, 'proof_of_address']);
+        Route::post('verify-teacher/national-insurance-number/{id}', [TeacherCredentialController::class, 'national_insurance_number']);
+        Route::post('verify-teacher/permit-or-id/{id}', [TeacherCredentialController::class, 'permit_or_id']);
+
+        // below are route to unverify teacher credentials
+        Route::post('unverify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'not_right_to_work']); 
+        Route::post('unverify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'not_dbs_certificate']);
+        Route::post('unverify-teacher/educational-qualification/{id}', [TeacherCredentialController::class, 'not_educational_qualification']);
+        Route::post('unverify-teacher/qts/{id}', [TeacherCredentialController::class, 'not_qts']);
+        Route::post('unverify-teacher/passport-or-driver-license/{id}', [TeacherCredentialController::class, 'not_passport_id_or_driver_license']);
+        Route::post('unverify-teacher/passport-photo/{id}', [TeacherCredentialController::class, 'not_passport_photo']);
+        Route::post('unverify-teacher/proof-of-address/{id}', [TeacherCredentialController::class, 'not_proof_of_address']);
+        Route::post('unverify-teacher/national-insurance-number/{id}', [TeacherCredentialController::class, 'not_national_insurance_number']);
+        Route::post('unverify-teacher/permit-or-id/{id}', [TeacherCredentialController::class, 'not_permit_or_id']);
     }
 );
 

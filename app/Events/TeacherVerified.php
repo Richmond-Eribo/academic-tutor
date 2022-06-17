@@ -18,12 +18,12 @@ class TeacherVerified
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\User $teacher
+     * @param \App\Models\User $user
      * @return void
      */
-    public function __construct(User $teacher)
+    public function __construct(User $user)
     {
-        $this->teacher = $teacher;
+        $this->user = $user;
     }
 
     /**

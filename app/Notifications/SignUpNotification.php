@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 class SignUpNotification extends Notification
 {
     use Queueable;
+    private $user;
 
     /**
      * Create a new notification instance.

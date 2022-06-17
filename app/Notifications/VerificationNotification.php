@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 class VerificationNotification extends Notification
 {
     use Queueable;
+    private $user;
 
     /**
      * Create a new notification instance.
@@ -43,7 +44,7 @@ class VerificationNotification extends Notification
         return (new MailMessage)
                     ->from('Academic Tutor')
                     ->subject('Verification Status Change!')
-                    ->greeting('Hello, '. $this->user->name)
+                    ->greeting('Hello, '. $this->teacher->name)
                     ->line('The is to notify that there has been a change in your verification status')
                     ->line('Login in to your profile to confirm')
                     ->line('Thank you for using our Aademic Tutor!');
