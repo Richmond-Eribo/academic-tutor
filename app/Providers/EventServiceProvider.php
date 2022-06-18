@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\TeacherVerified;
+use App\Events\UserSignedUp;
+use App\Events\UserUpdated;
+use App\Listeners\SendSignUpNotification;
+use App\Listeners\SendUserUpdateNotification;
+use App\Listeners\SendVerificationNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +23,15 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        UserSignedUp::class => [
+            SendSignUpNotification::class,
+        ],
+        UserUpdated::class => [
+            SendUserUpdateNotification::class,
+        ],
+        TeacherVerified::class => [
+            SendVerificationNotification::class,
         ],
     ];
 

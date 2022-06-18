@@ -30,5 +30,7 @@ class SendUserUpdateNotification
         $user = $event->user;
 
         $user->notify(new UserUpdateNotification($user));
+        
+        dd('Notification Sent');
     }
 }

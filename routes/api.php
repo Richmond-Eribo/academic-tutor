@@ -43,12 +43,12 @@ Route::group([
     'middleware' => ['api', 'auth:sanctum'],
     'prefix' => 'user'
     ], function () {
-        Route::post('/logout', [AuthController::class, 'logout']); // route to logout
+        Route::post('/logout', [AuthController::class, 'logout']); // route to logout 
         Route::get('/', [UserController::class, 'showAll']); // route to get all users
         Route::get('/{id}', [UserController::class, 'showOne']); // route to get user by id
         Route::post('/update/{id}', [UserController::class, 'update']); // route to update by id
-        Route::get('/download-file/{filename}', [UserController::class, 'downloadFile']); // route to download file by filename
-        Route::get('/get-file/{filename}', [UserController::class, 'getFile'] ); // route to get file by filename
+        Route::get('/download-file/{filename}', [UserController::class, 'downloadFile'] );
+        Route::get('/get-file-url/{filename}', [UserController::class, 'getFileUrl'] ); // route to get file by filename
     }
 );
 

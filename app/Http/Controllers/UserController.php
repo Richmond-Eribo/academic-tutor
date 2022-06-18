@@ -28,12 +28,15 @@ class UserController extends Controller
         $user->role = $role;
         $user->password = Hash::make($request->input('password'));
 
-        $profile_picture = $request->file('profile_picture');
-        $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getExtension();
-        $user->profile_picture = $profile_picture_fileName;
+        if($request->file('profile_picture')) {
+            $profile_picture = $request->file('profile_picture');
+            $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getExtension();
+            $user->profile_picture = $profile_picture_fileName;
+        }
+        
         
         if($user->save()) {
-            $this->uploadFile($profile_picture_fileName, $profile_picture);
+            $request->file('profile_picture') ? $this->uploadFile($profile_picture_fileName, $profile_picture) : null;
 
             if($role === 'teacher') {
                 $teacher_credential = new TeacherCredential();
@@ -262,7 +265,7 @@ class UserController extends Controller
      * @return void
      */
     public function uploadFile($filename, $file) {
-        Storage::disk('local')->put($filename, $file);
+        Storage::disk('local')->put('public/'.$filename, $file);
     }
 
 
@@ -273,9 +276,9 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function downloadFile($filename) { // not functional
-        if(Storage::disk('local')->exists($filename)) {
-            return Storage::download($filename);
+    public function downloadFile($filename) {
+        if(Storage::disk('local')->exists('public/'.$filename)) {
+            return Storage::download('public/'.$filename, $filename);
         }
 
         return response()->json([
@@ -291,7 +294,7 @@ class UserController extends Controller
      * @return void
      */
     public function deleteFile($filename) { // ===not functional
-        if(Storage::disk('local')->exists($filename)) {
+        if(Storage::disk('local')->exists('public/'.$filename)) {
             Storage::disk('local')->delete($filename); 
         }
         
@@ -304,11 +307,13 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getFile($filename) { // ===not functional
-        if(Storage::disk('local')->exists($filename)) {
-            $file = Storage::disk('local')->get($filename);
+    public function getFileUrl($filename) { 
+        if(Storage::disk('local')->exists('public/'.$filename)) {
+            $url = Storage::url("public/".$filename);
 
-            return response($file, 200)->header('Content-Type', 'image/*');
+            return response()->json([
+                'fileUrl' => $url
+            ]);
         }
 
         return response()->json([

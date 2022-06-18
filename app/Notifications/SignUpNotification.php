@@ -15,7 +15,7 @@ class SignUpNotification extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\User $user
+     *
      * @return void
      */
     public function __construct($user)
@@ -43,7 +43,6 @@ class SignUpNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->from('Academic Tutor')
                     ->subject('Successful Registration!')
                     ->greeting('Hello, '. $this->user->name)
                     ->line('The is to notify you of your successful registration.')
