@@ -30,7 +30,7 @@ class UserController extends Controller
 
         if($request->file('profile_picture')) {
             $profile_picture = $request->file('profile_picture');
-            $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getExtension();
+            $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension();
             $user->profile_picture = $profile_picture_fileName;
         }
         
@@ -51,43 +51,43 @@ class UserController extends Controller
                 $teacher_credential->subjects = $request->input('subjects');
     
                 $right_to_work = $request->file('right_to_work');
-                $right_to_work_fileName = $email.'/_right_to_work.'. $right_to_work->getExtension();
+                $right_to_work_fileName = $email.'/_right_to_work.'. $right_to_work->getClientOriginalExtension();
                 $teacher_credential->right_to_work = $right_to_work_fileName;
     
                 $dbs_certificate = $request->file('dbs_certificate');
-                $dbs_certificate_fileName = $email.'/_dbs_certificate.'. $dbs_certificate->getExtension();
+                $dbs_certificate_fileName = $email.'/_dbs_certificate.'. $dbs_certificate->getClientOriginalExtension();
                 $teacher_credential->dbs_certificate = $dbs_certificate_fileName;
     
                 $educational_qualification = $request->file('educational_qualification');
-                $educational_qualification_fileName = $email.'/_educational_qualification.'. $educational_qualification->getExtension();
+                $educational_qualification_fileName = $email.'/_educational_qualification.'. $educational_qualification->getClientOriginalExtension();
                 $teacher_credential->educational_qualification = $educational_qualification_fileName;
     
                 $qts = $request->file('qts');
-                $qts_fileName = $email.'/_qts.'. $qts->getExtension();
+                $qts_fileName = $email.'/_qts.'. $qts->getClientOriginalExtension();
                 $teacher_credential->qts = $qts_fileName;
     
                 $passport_id_or_driver_license = $request->file('passport_id_or_driver_license');
-                $passport_id_or_driver_license_fileName = $email.'/_passport_id_or_driver_license.'. $passport_id_or_driver_license->getExtension();
+                $passport_id_or_driver_license_fileName = $email.'/_passport_id_or_driver_license.'. $passport_id_or_driver_license->getClientOriginalExtension();
                 $teacher_credential->passport_id_or_driver_license = $passport_id_or_driver_license_fileName;
     
                 $passport_photo = $request->file('passport_photo');
-                $passport_photo_fileName = $email.'/_passport_photo.'. $passport_photo->getExtension();
+                $passport_photo_fileName = $email.'/_passport_photo.'. $passport_photo->getClientOriginalExtension();
                 $teacher_credential->passport_photo = $passport_photo_fileName;
     
                 $proof_of_address = $request->file('proof_of_address');
-                $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getExtension();
+                $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension();
                 $teacher_credential->proof_of_address = $proof_of_address_fileName;
     
                 $national_insurance_number = $request->file('national_insurance_number');
-                $national_insurance_number_fileName = $email.'/_national_insurance_number.'. $national_insurance_number->getExtension();
+                $national_insurance_number_fileName = $email.'/_national_insurance_number.'. $national_insurance_number->getClientOriginalExtension();
                 $teacher_credential->national_insurance_number = $national_insurance_number_fileName;
     
                 $permit_or_id = $request->file('permit_or_id');
-                $permit_or_id_fileName = $email.'/_permit_or_id.'. $permit_or_id->getExtension();
+                $permit_or_id_fileName = $email.'/_permit_or_id.'. $permit_or_id->getClientOriginalExtension();
                 $teacher_credential->permit_or_id = $permit_or_id_fileName;
     
                 $signature = $request->file('signature');
-                $signature_fileName = $email.'/_right_to_work.'. $signature->getExtension();
+                $signature_fileName = $email.'/_right_to_work.'. $signature->getClientOriginalExtension();
                 $teacher_credential->signature = $signature_fileName;
     
                 if($teacher_credential->save()) {
@@ -268,6 +268,20 @@ class UserController extends Controller
         Storage::disk('local')->put('public/'.$filename, $file);
     }
 
+     /**
+     * Upload user file.
+     *
+     * @param  string $email
+     * 
+     * @return void
+     */
+    public function updateFile($filename, $file) {
+        if($this->deleteFile($filename)) {
+            $this->uploadFile($filename, $file);
+        };
+        
+    }
+
 
     /**
      * Download user file
@@ -276,9 +290,11 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function downloadFile($filename) {
+    public function downloadFile($email, $name) {
+        $filename = $email. '/' .$name;
         if(Storage::disk('local')->exists('public/'.$filename)) {
-            return Storage::download('public/'.$filename, $filename);
+            $file = Storage::disk('local')->get($filename);
+            return response()->download($file, $filename);
         }
 
         return response()->json([
@@ -295,7 +311,7 @@ class UserController extends Controller
      */
     public function deleteFile($filename) { // ===not functional
         if(Storage::disk('local')->exists('public/'.$filename)) {
-            Storage::disk('local')->delete($filename); 
+            Storage::disk('local')->delete('public/'.$filename); 
         }
         
     }
@@ -307,7 +323,8 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getFileUrl($filename) { 
+    public function getFileUrl($email, $name) {
+        $filename = $email. '/' .$name; 
         if(Storage::disk('local')->exists('public/'.$filename)) {
             $url = Storage::url("public/".$filename);
 

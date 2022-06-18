@@ -47,8 +47,13 @@ Route::group([
         Route::get('/', [UserController::class, 'showAll']); // route to get all users
         Route::get('/{id}', [UserController::class, 'showOne']); // route to get user by id
         Route::post('/update/{id}', [UserController::class, 'update']); // route to update by id
-        Route::get('/download-file/{filename}', [UserController::class, 'downloadFile'] );
-        Route::get('/get-file-url/{filename}', [UserController::class, 'getFileUrl'] ); // route to get file by filename
+
+        /* download-file/hello@xample/_profile_picture.jpg 
+        *  from database,  filename = hello@xample/_profile_picture.jpg
+        * just add filename to route, /download-file/{filename} 
+        */
+        Route::get('/download-file/{email}/{name}', [UserController::class, 'downloadFile'] );
+        Route::get('/get-file-url/{email}/{name}', [UserController::class, 'getFileUrl'] ); // route to get file by filename
     }
 );
 

@@ -42,7 +42,6 @@ class VerificationNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->from('Academic Tutor')
                     ->subject('Verification Status Change!')
                     ->greeting('Hello, '. $this->teacher->name)
                     ->line('The is to notify that there has been a change in your verification status')
