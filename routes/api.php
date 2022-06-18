@@ -37,7 +37,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/user/register', [UserController::class, 'store'])->middleware('guest'); // === route to signup
 Route::post('/user/login', [AuthController::class, 'login'])->middleware('guest')->name('login'); // route to login
-Route::post('/user/exist/{email}', [UserController::class, 'exist'])->middleware('guest'); // Check if User exist
+Route::post('/user/exist/{email}', [UserController::class, 'existEmail'])->middleware('guest'); // Check if User exist
+Route::post('/user/exist/{phone}', [UserController::class, 'existPhone'])->middleware('guest');
 
 Route::group([
     'middleware' => ['api', 'auth:sanctum'],
@@ -53,7 +54,7 @@ Route::group([
         * just add filename to route, /download-file/{filename} 
         */
         Route::get('/download-file/{email}/{name}', [UserController::class, 'downloadFile'] );
-        Route::get('/get-file-url/{email}/{name}', [UserController::class, 'getFileUrl'] ); // route to get file by filename
+        Route::get('/get-file-url/{email}/{name}', [UserController::class, 'getFileUrl'] ); 
     }
 );
 

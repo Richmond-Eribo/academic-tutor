@@ -111,12 +111,24 @@ class UserController extends Controller
 
 
     /**
-     * Check if User exist.
+     * Check if User Email exist.
      *
-     * @param string $eamil
+     * @param string $email
      */
-    public function exist(Request $request, $email) {
+    public function existEmail(Request $request, $email) {
         if(User::where('email', $email)->first()) {
+            return true; 
+        }
+        return false;
+    }
+
+    /**
+     * Check if User Phone exist.
+     *
+     * @param string $phone
+     */
+    public function existPhone(Request $request, $phone) {
+        if(User::where('phone', $phone)->first()) {
             return true; 
         }
         return false;
@@ -265,7 +277,7 @@ class UserController extends Controller
      * @return void
      */
     public function uploadFile($filename, $file) {
-        Storage::disk('local')->put('public/'.$filename, $file);
+        Storage::putFileAs('public/', $file, $filename);
     }
 
      /**
@@ -293,8 +305,7 @@ class UserController extends Controller
     public function downloadFile($email, $name) {
         $filename = $email. '/' .$name;
         if(Storage::disk('local')->exists('public/'.$filename)) {
-            $file = Storage::disk('local')->get($filename);
-            return response()->download($file, $filename);
+            return Storage::download('public/'.$filename, $email.$name);
         }
 
         return response()->json([
