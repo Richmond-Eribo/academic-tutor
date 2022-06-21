@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 | to the /sanctum/csrf-cookie endpoint to initialize CSRF protection for the application:
 |
 | axios.get('/sanctum/csrf-cookie').then(response => {
-|    // Login...
+|    axios.post('/api/user/login')
 | });
 |
 | During this request, Laravel will set an XSRF-TOKEN cookie containing the current CSRF token.
@@ -36,15 +36,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/user/register', [UserController::class, 'store'])->middleware('guest'); // === route to signup
-Route::post('/user/login', [AuthController::class, 'login'])->middleware('guest')->name('login'); // route to login
+ // route to login
 Route::post('/user/exist/{email}', [UserController::class, 'existEmail'])->middleware('guest'); // Check if User exist
 Route::post('/user/exist/{phone}', [UserController::class, 'existPhone'])->middleware('guest');
 
 Route::group([
     'middleware' => ['api', 'auth:sanctum'],
     'prefix' => 'user'
-    ], function () {
-        Route::post('/logout', [AuthController::class, 'logout']); // route to logout 
+    ], function () { 
         Route::get('/', [UserController::class, 'showAll']); // route to get all users
         Route::get('/{id}', [UserController::class, 'showOne']); // route to get user by id
         Route::post('/update/{id}', [UserController::class, 'update']); // route to update by id
