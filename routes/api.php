@@ -41,7 +41,7 @@ Route::post('/user/exist/{email}', [UserController::class, 'existEmail'])->middl
 Route::post('/user/exist/{phone}', [UserController::class, 'existPhone'])->middleware('guest');
 
 Route::group([
-    'middleware' => ['api', 'auth:sanctum'],
+    'middleware' => 'auth:sanctum',
     'prefix' => 'user'
     ], function () { 
         Route::get('/', [UserController::class, 'showAll']); // route to get all users
