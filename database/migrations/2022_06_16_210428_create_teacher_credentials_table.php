@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->bigInteger('phone')->unique()->nullable();
-		$table->string('ref_name');
+	$table->string('ref_name')->nullable();
             $table->string('ref_email')->nullable() ;
             $table->bigInteger('ref_phone')->nullable(); 
             $table->string('ref_relationship')->nullable();
