@@ -45,9 +45,13 @@ class UserController extends Controller
                 $teacher_credential->name = $request->input('name');
                 $teacher_credential->email = $email;
                 $teacher_credential->phone = $request->input('phone');
-                $teacher_credential->relationship = $request->input('relationship');
-                $teacher_credential->organisation = $request->input('organisation');
-                $teacher_credential->position = $request->input('position');
+		
+                $teacher_credential->ref_name = $request->input('ref_name');
+                $teacher_credential->ref_email = $request->input('ref_email'); 
+                $teacher_credential->ref_phone = $request->input('ref_phone'); 
+                $teacher_credential->ref_relationship = $request->input('ref_relationship');
+                $teacher_credential->ref_organisation = $request->input('ref_organisation');
+                $teacher_credential->ref_position = $request->input('ref_position');
                 $teacher_credential->profile = $request->input('profile');
                 $teacher_credential->subjects = $request->input('subjects');
     
@@ -210,11 +214,16 @@ class UserController extends Controller
             if($user->role === 'teacher') {
                 $teacher_credential = TeacherCredential::where('email', $old_email)->first();
                 
-                $teacher_credential->email = $email;
+                $teacher_credential->name = $request->input('name') ? $request->input('name') : $user->name; 
+		$teacher_credential->email = $email;
                 $teacher_credential->phone = $request->input('phone') ? $request->input('phone') : $user->phone;
-                $teacher_credential->relationship = $request->input('relationship') ? $request->input('relationship') : $teacher_credential->relationship;
-                $teacher_credential->organisation = $request->input('organisation') ? $request->input('organisation') : $teacher_credential->organisation;
-                $teacher_credential->position = $request->input('position') ? $request->input('position') : $teacher_credential->position;
+		
+                $teacher_credential->ref_name = $request->input('ref_name') ? $request->input('ref_name') : $teacher_credential->ref_name; 
+		$teacher_credential->ref_email = $request->input('ref_email') ? $request->input('ref_email') : $teacher_credential->ref_email;  
+                $teacher_credential->ref_phone = $request->input('ref_phone') ? $request->input('ref_phone') : $teacher_credential->ref_phone; 
+                $teacher_credential->ref_relationship = $request->input('ref_relationship') ? $request->input('ref_relationship') : $teacher_credential->ref_relationship;
+                $teacher_credential->ref_organisation = $request->input('ref_organisation') ? $request->input('ref_organisation') : $teacher_credential->ref_organisation;
+                $teacher_credential->ref_position = $request->input('ref_position') ? $request->input('ref_position') : $teacher_credential->ref_position;
                 $teacher_credential->profile = $request->input('profile') ? $request->input('profile') : $teacher_credential->profile;
                 $teacher_credential->subjects = $request->input('subjects') ? $request->input('subjects') : $teacher_credential->subjects;
                 
