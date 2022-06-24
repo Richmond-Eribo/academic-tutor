@@ -44,8 +44,7 @@ Route::group([
     'middleware' => 'auth:sanctum',
     'prefix' => 'user'
     ], function () { 
-        Route::get('/', [UserController::class, 'showAll']); // route to get all users
-        Route::get('/{id}', [UserController::class, 'showOne']); // route to get user by id
+        Route::get('/', [UserController::class, 'showUser']); // route to get current authenticated user 
         Route::post('/update/{id}', [UserController::class, 'update']); // route to update by id
 
         /* download-file/hello@xample/_profile_picture.jpg 
@@ -61,6 +60,8 @@ Route::group([
     'middleware' => ['auth:sanctum', 'is.admin'],
     'prefix' => 'admin'
     ], function () {
+	Route::get('/get-user/{id}', [UserController::class, 'showOne']); // route to get user by id 
+	Route::get('/get-users', [UserController::class, 'showAll']); // route to get all users 
         Route::post('delete-user/{id}', [UserController::class, 'destroy']); //route to delete user
         
         // below are route to verify teacher credentials
