@@ -18,9 +18,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->bigInteger('phone')->unique()->nullable();
-            $table->string('relationship')->nullable();
-            $table->string('organisation')->nullable();
-            $table->string('position')->nullable();
+		$table->string('ref_name');
+            $table->string('ref_email')->nullable() ;
+            $table->bigInteger('ref_phone')->nullable(); 
+            $table->string('ref_relationship')->nullable();
+            $table->string('ref_organisation')->nullable();
+            $table->string('ref_position')->nullable();
             $table->string('profile')->nullable();
             $table->string('subjects')->nullable();
             $table->boolean("verified")->default(false);
