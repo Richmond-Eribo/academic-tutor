@@ -151,7 +151,7 @@ class UserController extends Controller
 
 
     /**
-     * Get one authenticated User.
+     * Get User by id.
      *
      * @param  integer $id
      * 
@@ -164,6 +164,21 @@ class UserController extends Controller
             return response()->json($user);
         }
     }
+
+	/**
+     * Get current authenticated User.
+     *
+     * @param  integer $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showUser() {
+        $user  = Auth::user();
+
+        if($user) {
+            return response()->json($user);
+        }
+    } 
 
 
     /**
