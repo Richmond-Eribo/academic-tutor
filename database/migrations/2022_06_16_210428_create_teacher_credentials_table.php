@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->bigInteger('phone')->unique()->nullable();
-	$table->string('ref_name')->nullable();
+            $table->string('phone')->unique()->nullable();
+	        $table->string('ref_name')->nullable();
             $table->string('ref_email')->nullable() ;
-            $table->bigInteger('ref_phone')->nullable(); 
+            $table->string('ref_phone')->nullable(); 
             $table->string('ref_relationship')->nullable();
             $table->string('ref_organisation')->nullable();
             $table->string('ref_position')->nullable();

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TeacherRequestedFor;
+use App\Events\TeacherRequestedForCancelled;
+use App\Models\ParentRequests;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ParentController extends Controller
 {
@@ -45,4 +49,5 @@ class ParentController extends Controller
         }
         return response()->json($parent);
     }
+
 }

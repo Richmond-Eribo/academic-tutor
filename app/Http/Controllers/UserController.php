@@ -215,11 +215,11 @@ class UserController extends Controller
                 $teacher_credential = TeacherCredential::where('email', $old_email)->first();
                 
                 $teacher_credential->name = $request->input('name') ? $request->input('name') : $user->name; 
-		$teacher_credential->email = $email;
+		        $teacher_credential->email = $email;
                 $teacher_credential->phone = $request->input('phone') ? $request->input('phone') : $user->phone;
 		
                 $teacher_credential->ref_name = $request->input('ref_name') ? $request->input('ref_name') : $teacher_credential->ref_name; 
-		$teacher_credential->ref_email = $request->input('ref_email') ? $request->input('ref_email') : $teacher_credential->ref_email;  
+		        $teacher_credential->ref_email = $request->input('ref_email') ? $request->input('ref_email') : $teacher_credential->ref_email;  
                 $teacher_credential->ref_phone = $request->input('ref_phone') ? $request->input('ref_phone') : $teacher_credential->ref_phone; 
                 $teacher_credential->ref_relationship = $request->input('ref_relationship') ? $request->input('ref_relationship') : $teacher_credential->ref_relationship;
                 $teacher_credential->ref_organisation = $request->input('ref_organisation') ? $request->input('ref_organisation') : $teacher_credential->ref_organisation;

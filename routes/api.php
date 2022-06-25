@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ParentController;
+use App\Http\Controllers\ParentRequestController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherCredentialController;
 use App\Http\Controllers\UserController;
@@ -60,10 +61,14 @@ Route::group([
     'middleware' => ['auth:sanctum', 'is.admin'],
     'prefix' => 'admin'
     ], function () {
-	Route::get('/get-user/{id}', [UserController::class, 'showOne']); // route to get user by id 
-	Route::get('/get-users', [UserController::class, 'showAll']); // route to get all users 
+	    Route::get('/get-user/{id}', [UserController::class, 'showOne']); // route to get user by id 
+	    Route::get('/get-users', [UserController::class, 'showAll']); // route to get all users 
         Route::post('delete-user/{id}', [UserController::class, 'destroy']); //route to delete user
-        
+
+        Route::get('/parent-teacher/requests', [ParentRequestController::class, 'showAll']); // retrieve all request made by parents
+        Route::get('/parent-requests/{parent-id}', [ParentRequestController::class, 'ShowRequestsByParent']); // retriev all requests made by a parent
+        Route::get('/teacher-requests/{teacher-id}', [ParentRequestController::class, 'ShowRequestsForTeacher']); // retrieve all requests made for a teacher
+
         // below are route to verify teacher credentials
         Route::post('verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
         Route::post('verify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'dbs_certificate']);
@@ -94,6 +99,7 @@ Route::group([
     'prefix' => 'teacher'
     ], function () {
           Route::get('/', [TeacherController::class, 'showAll']); //route to get all teachers
+          Route::get('/credentials/{$email}', [TeacherController::class, 'showAll']); //route to get all teacher credentials details
           Route::get('/verified', [TeacherController::class, 'showAllVerified']); // route to get all verified teachers
           Route::get('/{id}', [TeacherController::class, 'showOne']); // route to get teacher by id
           Route::get('/verified/{id}', [TeacherController::class, 'showOneVerified']); // route to get verified teacher by id
@@ -106,6 +112,8 @@ Route::group([
     'prefix' => 'parent'
     ], function () {
           Route::get('/', [ParentController::class, 'showAll']); // route to get all parents
+          Route::post('/request-teacher/{teacher-id}', [ParentRequestController::class, 'requestTeacher']); // route to request teacher
+          Route::post('/cancel-request-teacher/{teacher-id}', [ParentRequestController::class, 'cancelRequestTeacher']); // route to cancel request for a teacher
           Route::get('/{id}', [ParentController::class, 'showOne']); // route to get parent by id
     }
 );

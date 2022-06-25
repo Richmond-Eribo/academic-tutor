@@ -14,6 +14,24 @@ class TeacherCredentialController extends Controller
      * 
      * @return bool
      */
+    public function showCredentials($email)
+    {
+        $teacher_credential = TeacherCredential::where('email', $email);
+
+        if($teacher_credential) {
+            return response()->json($teacher_credential); 
+        }
+
+        return response()->json([
+            'error' => 'This user is not  teacher'
+        ]);
+
+    }
+    /**
+     * Verify Teacher.
+     * 
+     * @return bool
+     */
     public function isverified($teacher)
     {               
         $teacher_credential = TeacherCredential::where('email', $teacher->email);

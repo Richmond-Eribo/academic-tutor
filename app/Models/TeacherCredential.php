@@ -18,9 +18,12 @@ class TeacherCredential extends Model
         'name',
         'email',
         'phone',
-        'relationship',
-        'organisation',
-        'position',
+        'ref_name',
+        'ref_email',
+        'ref_phone',
+        'ref_relationship',
+        'ref_organisation',
+        'ref_position',
         'profile',
     ];
 
