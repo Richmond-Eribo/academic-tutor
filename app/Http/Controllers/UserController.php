@@ -79,8 +79,10 @@ class UserController extends Controller
                 $passport_photo_fileName ? $teacher_credential->passport_photo = $passport_photo_fileName : null;
     
                 $proof_of_address = $request->file('proof_of_address');
+
                 $proof_of_address ? $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension() : null;
                 $proof_of_address_filename ? $teacher_credential->proof_of_address = $proof_of_address_fileName : null;
+
     
                 $national_insurance_number = $request->file('national_insurance_number');
                 $national_insurance_number ? $national_insurance_number_fileName = $email.'/_national_insurance_number.'. $national_insurance_number->getClientOriginalExtension() : null;
