@@ -31,8 +31,8 @@ class UserController extends Controller
 
         if($request->file('profile_picture')) {
             $profile_picture = $request->file('profile_picture');
-            $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension() || null;
-            $user->profile_picture = $profile_picture_fileName;
+            $profile picture ? $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension() : null;
+            $profile_picture_fileName ? $user->profile_picture = $profile_picture_fileName : null;
         }
         
         
