@@ -44,7 +44,10 @@ class UserController extends Controller
     
                 $teacher_credential->name = $request->input('name');
                 $teacher_credential->email = $email;
-                $teacher_credential->phone = $request->input('pho       $teacher_credential->ref_phone = $request->input('ref_phone'); 
+                $teacher_credential->phone = $request->input('phone');   
+		$teacher_credential->ref_name = $request->input('ref_name'); 
+		$teacher_credential->ref_email = $request->input('ref_email');
+		$teacher_credential->ref_phone = $request->input('ref_phone'); 
                 $teacher_credential->ref_relationship = $request->input('ref_relationship');
                 $teacher_credential->ref_organisation = $request->input('ref_organisation');
                 $teacher_credential->ref_position = $request->input('ref_position');
