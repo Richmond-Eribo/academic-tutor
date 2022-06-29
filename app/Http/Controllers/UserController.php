@@ -31,7 +31,7 @@ class UserController extends Controller
 
         if($request->file('profile_picture')) {
             $profile_picture = $request->file('profile_picture');
-            $profile picture ? $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension() : null;
+            $profile_picture ? $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension() : null;
             $profile_picture_fileName ? $user->profile_picture = $profile_picture_fileName : null;
         }
         
@@ -75,13 +75,12 @@ class UserController extends Controller
                 $passport_id_or_driver_license_fileName ? $teacher_credential->passport_id_or_driver_license = $passport_id_or_driver_license_fileName : null;
     
                 $passport_photo = $request->file('passport_photo');
-                $passport photo ? $passport_photo_fileName = $email.'/_passport_photo.'. $passport_photo->getClientOriginalExtension() : null;
+                $passport_photo ? $passport_photo_fileName = $email.'/_passport_photo.'. $passport_photo->getClientOriginalExtension() : null;
                 $passport_photo_fileName ? $teacher_credential->passport_photo = $passport_photo_fileName : null;
     
                 $proof_of_address = $request->file('proof_of_address');
-
                 $proof_of_address ? $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension() : null;
-                $proof_of_address_filename ? $teacher_credential->proof_of_address = $proof_of_address_fileName : null;
+                $proof_of_address_fileName ? $teacher_credential->proof_of_address = $proof_of_address_fileName : null;
 
     
                 $national_insurance_number = $request->file('national_insurance_number');
@@ -94,7 +93,7 @@ class UserController extends Controller
     
                 $signature = $request->file('signature');
                 $signature ? $signature_fileName = $email.'/_right_to_work.'. $signature->getClientOriginalExtension() : null;
-                $signature filename ? $teacher_credential->signature = $signature filename : null;
+                $signature_fileName ? $teacher_credential->signature = $signature_fileName : null;
     
                 if($teacher_credential->save()) {
                     $this->uploadFile($right_to_work_fileName, $right_to_work);
