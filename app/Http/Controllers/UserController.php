@@ -80,7 +80,7 @@ class UserController extends Controller
                 $teacher_credential->passport_photo = $passport_photo_fileName;
     
                 $proof_of_address = $request->file('proof_of_address');
-                $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension() null;
+                $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension() || null;
                 $teacher_credential->proof_of_address = $proof_of_address_fileName;
     
                 $national_insurance_number = $request->file('national_insurance_number');
