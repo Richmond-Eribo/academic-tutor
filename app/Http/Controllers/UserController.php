@@ -44,11 +44,7 @@ class UserController extends Controller
     
                 $teacher_credential->name = $request->input('name');
                 $teacher_credential->email = $email;
-                $teacher_credential->phone = $request->input('phone');
-		
-                $teacher_credential->ref_name = $request->input('ref_name');
-                $teacher_credential->ref_email = $request->input('ref_email'); 
-                $teacher_credential->ref_phone = $request->input('ref_phone'); 
+                $teacher_credential->phone = $request->input('pho       $teacher_credential->ref_phone = $request->input('ref_phone'); 
                 $teacher_credential->ref_relationship = $request->input('ref_relationship');
                 $teacher_credential->ref_organisation = $request->input('ref_organisation');
                 $teacher_credential->ref_position = $request->input('ref_position');
@@ -56,44 +52,44 @@ class UserController extends Controller
                 $teacher_credential->subjects = $request->input('subjects');
     
                 $right_to_work = $request->file('right_to_work');
-                $right_to_work_fileName = $email.'/_right_to_work.'. $right_to_work->getClientOriginalExtension() || null;
-                $teacher_credential->right_to_work = $right_to_work_fileName;
+                $right_to_work ? $right_to_work_fileName = $email.'/_right_to_work.'. $right_to_work->getClientOriginalExtension() : null;
+                $right_to_work_fileName ? $teacher_credential->right_to_work = $right_to_work_fileName : null;
     
                 $dbs_certificate = $request->file('dbs_certificate');
-                $dbs_certificate_fileName = $email.'/_dbs_certificate.'. $dbs_certificate->getClientOriginalExtension() || null;
-                $teacher_credential->dbs_certificate = $dbs_certificate_fileName;
+                $dbs_certificate ? $dbs_certificate_fileName = $email.'/_dbs_certificate.'. $dbs_certificate->getClientOriginalExtension() : null;
+                $dbs_certificate_fileName ? $teacher_credential->dbs_certificate = $dbs_certificate_fileName : null;
     
                 $educational_qualification = $request->file('educational_qualification');
-                $educational_qualification_fileName = $email.'/_educational_qualification.'. $educational_qualification->getClientOriginalExtension() || null;
-                $teacher_credential->educational_qualification = $educational_qualification_fileName;
+                $educational_qualification ? $educational_qualification_fileName = $email.'/_educational_qualification.'. $educational_qualification->getClientOriginalExtension() : null;
+                $educational_qualification_fileName ? $teacher_credential->educational_qualification = $educational_qualification_fileName : null;
     
                 $qts = $request->file('qts');
-                $qts_fileName = $email.'/_qts.'. $qts->getClientOriginalExtension() || null;
-                $teacher_credential->qts = $qts_fileName;
+                $qts ? $qts_fileName = $email.'/_qts.'. $qts->getClientOriginalExtension() : null;
+                $qts_fileName ? $teacher_credential->qts = $qts_fileName : null;
     
                 $passport_id_or_driver_license = $request->file('passport_id_or_driver_license');
-                $passport_id_or_driver_license_fileName = $email.'/_passport_id_or_driver_license.'. $passport_id_or_driver_license->getClientOriginalExtension() || null;
-                $teacher_credential->passport_id_or_driver_license = $passport_id_or_driver_license_fileName;
+                $passport_id_or_driver_license ? $passport_id_or_driver_license_fileName = $email.'/_passport_id_or_driver_license.'. $passport_id_or_driver_license->getClientOriginalExtension() : null;
+                $passport_id_or_driver_license_fileName ? $teacher_credential->passport_id_or_driver_license = $passport_id_or_driver_license_fileName : null;
     
                 $passport_photo = $request->file('passport_photo');
-                $passport_photo_fileName = $email.'/_passport_photo.'. $passport_photo->getClientOriginalExtension() || null;
-                $teacher_credential->passport_photo = $passport_photo_fileName;
+                $passport photo ? $passport_photo_fileName = $email.'/_passport_photo.'. $passport_photo->getClientOriginalExtension() : null;
+                $passport_photo_fileName ? $teacher_credential->passport_photo = $passport_photo_fileName : null;
     
                 $proof_of_address = $request->file('proof_of_address');
-                $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension() null;
-                $teacher_credential->proof_of_address = $proof_of_address_fileName;
+                $proof_of_address ? $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension() : null;
+                $proof_of_address_filename ? $teacher_credential->proof_of_address = $proof_of_address_fileName : null;
     
                 $national_insurance_number = $request->file('national_insurance_number');
-                $national_insurance_number_fileName = $email.'/_national_insurance_number.'. $national_insurance_number->getClientOriginalExtension() || null;
-                $teacher_credential->national_insurance_number = $national_insurance_number_fileName;
+                $national_insurance_number ? $national_insurance_number_fileName = $email.'/_national_insurance_number.'. $national_insurance_number->getClientOriginalExtension() : null;
+                $national_insurance_number_fileName ? $teacher_credential->national_insurance_number = $national_insurance_number_fileName : null;
     
                 $permit_or_id = $request->file('permit_or_id');
-                $permit_or_id_fileName = $email.'/_permit_or_id.'. $permit_or_id->getClientOriginalExtension() || null;
-                $teacher_credential->permit_or_id = $permit_or_id_fileName;
+                $permit_or_id ? $permit_or_id_fileName = $email.'/_permit_or_id.'. $permit_or_id->getClientOriginalExtension() : null;
+                $permit_or_id_fileName ? $teacher_credential->permit_or_id = $permit_or_id_fileName : null;
     
                 $signature = $request->file('signature');
-                $signature_fileName = $email.'/_right_to_work.'. $signature->getClientOriginalExtension() || null;
-                $teacher_credential->signature = $signature_fileName;
+                $signature ? $signature_fileName = $email.'/_right_to_work.'. $signature->getClientOriginalExtension() : null;
+                $signature filename ? $teacher_credential->signature = $signature filename : null;
     
                 if($teacher_credential->save()) {
                     $this->uploadFile($right_to_work_fileName, $right_to_work);
