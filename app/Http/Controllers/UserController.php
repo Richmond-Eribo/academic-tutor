@@ -29,9 +29,12 @@ class UserController extends Controller
         $user->role = $role;
         $user->password = Hash::make($request->input('password'));
 
-        $profile_picture = $request->file('profile_picture');
-        $profile_picture ? $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension() : $profile_picture_fileName = null;
-        $user->profile_picture = $profile_picture_fileName;
+        if($request->file('profile_picture')) {
+            $profile_picture = $request->file('profile_picture');
+            $profile_picture ? $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension() : null;
+            $profile_picture_fileName ? $user->profile_picture = $profile_picture_fileName : null;
+        }
+
         
         
         if($user->save()) {
@@ -73,12 +76,13 @@ class UserController extends Controller
                 $teacher_credential->passport_id_or_driver_license = $passport_id_or_driver_license_fileName;
 
                 $passport_photo = $request->file('passport_photo');
-                $passport_photo_fileName = $passport_photo ? $email.'/_passport_photo.'. $passport_photo->getClientOriginalExtension() : null;
-                $teacher_credential->passport_photo = $passport_photo_fileName;
-                
+
+                $passport_photo ? $passport_photo_fileName = $email.'/_passport_photo.'. $passport_photo->getClientOriginalExtension() : null;
+                $passport_photo_fileName ? $teacher_credential->passport_photo = $passport_photo_fileName : null;
+    
                 $proof_of_address = $request->file('proof_of_address');
-                $proof_of_address_fileName = $proof_of_address ? $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension() : null;
-                $teacher_credential->proof_of_address = $proof_of_address_fileName;
+                $proof_of_address ? $proof_of_address_fileName = $email.'/_proof_of_address.'. $proof_of_address->getClientOriginalExtension() : null;
+                $proof_of_address_fileName ? $teacher_credential->proof_of_address = $proof_of_address_fileName : null;
 
                 $national_insurance_number = $request->file('national_insurance_number');
                 $national_insurance_number_fileName = $national_insurance_number ? $email.'/_national_insurance_number.'. $national_insurance_number->getClientOriginalExtension() : null;
@@ -89,8 +93,9 @@ class UserController extends Controller
                 $teacher_credential->permit_or_id = $permit_or_id_fileName;
     
                 $signature = $request->file('signature');
-                $signature_fileName = $signature ? $email.'/_signature.'. $signature->getClientOriginalExtension() : null;
-                $teacher_credential->signature = $signature_fileName;
+
+                $signature ? $signature_fileName = $email.'/_right_to_work.'. $signature->getClientOriginalExtension() : null;
+                $signature_fileName ? $teacher_credential->signature = $signature_fileName : null;
     
                 if($teacher_credential->save()) {
                     $this->uploadFile($right_to_work_fileName, $right_to_work);
