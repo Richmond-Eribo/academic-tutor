@@ -31,7 +31,7 @@ class UserController extends Controller
 
         if($request->file('profile_picture')) {
             $profile_picture = $request->file('profile_picture');
-            $profile_picture ? $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension() : null;
+            $profile_picture_fileName = $profile_picture ? $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension() : null;
             $profile_picture_fileName ? $user->profile_picture = $profile_picture_fileName : null;
         }
 
@@ -94,7 +94,7 @@ class UserController extends Controller
     
                 $signature = $request->file('signature');
 
-                $signature ? $signature_fileName = $email.'/_right_to_work.'. $signature->getClientOriginalExtension() : null;
+                $signature_fileName = $signature ? $email.'/_right_to_work.'. $signature->getClientOriginalExtension() : null;
                 $signature_fileName ? $teacher_credential->signature = $signature_fileName : null;
     
                 if($teacher_credential->save()) {
