@@ -34,7 +34,7 @@ class ParentRequestController extends Controller
     public function requestTeacher(Request $request)
     {
         $parent = Auth::user()->role === "parent" ? Auth::user() : null;
-	$id = $request->get("teacher-id");
+	$id = $request->input("teacher-id");
         if($parent) {
             $teacher = User::where('role', 'teacher')
                             ->where('id', $id)
@@ -79,7 +79,7 @@ class ParentRequestController extends Controller
     public function cancelRequestTeacher(Request $request)
     {
         $parent = Auth::user()->role === "parent" ? Auth::user() : null;
-	$id = $request->get("teacher-id"); 
+	$id = $request->input("teacher-id"); 
         if($parent) {
             $teacher = User::where('role', 'teacher')
                             ->where('id', $id)
