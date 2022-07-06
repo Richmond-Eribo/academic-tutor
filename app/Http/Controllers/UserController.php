@@ -28,6 +28,9 @@ class UserController extends Controller
         $role = $request->input('role');
         $user->role = $role;
         $user->password = Hash::make($request->input('password'));
+$user->profile = $request->input('profile');
+                $user->subjects = $request->input('subjects');
+
 
         if($request->file('profile_picture')) {
             $profile_picture = $request->file('profile_picture');
@@ -52,9 +55,7 @@ class UserController extends Controller
                 $teacher_credential->ref_relationship = $request->input('ref_relationship');
                 $teacher_credential->ref_organisation = $request->input('ref_organisation');
                 $teacher_credential->ref_position = $request->input('ref_position');
-                $teacher_credential->profile = $request->input('profile');
-                $teacher_credential->subjects = $request->input('subjects');
-    
+                
                 $right_to_work = $request->file('right_to_work');
                 $right_to_work_fileName = $right_to_work ?  $email.'/_right_to_work.'. $right_to_work->getClientOriginalExtension() : null;
                 $teacher_credential->right_to_work = $right_to_work_fileName;
@@ -208,6 +209,9 @@ class UserController extends Controller
 
         $profile_picture = $request->file('profile_picture') ? $request->file('profile_picture') : null;
         $profile_picture_fileName = $user->profile_picture ? $user->profile_picture : $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension();
+$user->profile = $request->input('profile') ? $request->input('profile') : $user->profile;
+         $user->subjects = $request->input('subjects') ? $request->input('subjects') : $user->subjects;
+              
 
         if($user->save()) {
             $profile_picture_fileName ? $this->uploadFile($profile_picture_fileName, $profile_picture) : null;
@@ -225,8 +229,6 @@ class UserController extends Controller
                 $teacher_credential->ref_relationship = $request->input('ref_relationship') ? $request->input('ref_relationship') : $teacher_credential->ref_relationship;
                 $teacher_credential->ref_organisation = $request->input('ref_organisation') ? $request->input('ref_organisation') : $teacher_credential->ref_organisation;
                 $teacher_credential->ref_position = $request->input('ref_position') ? $request->input('ref_position') : $teacher_credential->ref_position;
-                $teacher_credential->profile = $request->input('profile') ? $request->input('profile') : $teacher_credential->profile;
-                $teacher_credential->subjects = $request->input('subjects') ? $request->input('subjects') : $teacher_credential->subjects;
                 
                 $right_to_work = $request->file('right_to_work') ? $request->file('right_to_work') : null;                
                 if($right_to_work) {
