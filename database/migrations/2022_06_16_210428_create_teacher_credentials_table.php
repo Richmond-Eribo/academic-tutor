@@ -24,8 +24,6 @@ return new class extends Migration
             $table->string('ref_relationship')->nullable();
             $table->string('ref_organisation')->nullable();
             $table->string('ref_position')->nullable();
-            $table->string('profile')->nullable();
-            $table->string('subjects')->nullable();
             $table->boolean("verified")->default(false);
             $table->string('right_to_work')->nullable();
             $table->boolean("right_to_work_isverified")->default(false);
