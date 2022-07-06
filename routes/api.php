@@ -112,8 +112,8 @@ Route::group([
     'prefix' => 'parent'
     ], function () {
           Route::get('/', [ParentController::class, 'showAll']); // route to get all parents
-          Route::post('/request-teacher/{teacher-id}', [ParentRequestController::class, 'requestTeacher']); // route to request teacher
-          Route::post('/cancel-request-teacher/{teacher-id}', [ParentRequestController::class, 'cancelRequestTeacher']); // route to cancel request for a teacher
+          Route::post('/request-teacher', [ParentRequestController::class, 'requestTeacher']); // route to request teacher
+          Route::post('/cancel-request-teacher', [ParentRequestController::class, 'cancelRequestTeacher']); // route to cancel request for a teacher
           Route::get('/{id}', [ParentController::class, 'showOne']); // route to get parent by id
     }
 );

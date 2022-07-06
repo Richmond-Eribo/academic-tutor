@@ -31,10 +31,10 @@ class ParentRequestController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function requestTeacher($id)
+    public function requestTeacher(Request $request)
     {
         $parent = Auth::user()->role === "parent" ? Auth::user() : null;
-
+	$id = $request->get("teacher-id");
         if($parent) {
             $teacher = User::where('role', 'teacher')
                             ->where('id', $id)
@@ -76,10 +76,10 @@ class ParentRequestController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function cancelRequestTeacher($id)
+    public function cancelRequestTeacher(Request $request)
     {
         $parent = Auth::user()->role === "parent" ? Auth::user() : null;
-
+	$id = $request->get("teacher-id"); 
         if($parent) {
             $teacher = User::where('role', 'teacher')
                             ->where('id', $id)
