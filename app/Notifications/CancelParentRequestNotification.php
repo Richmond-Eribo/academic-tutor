@@ -48,11 +48,11 @@ class CancelParentRequestNotification extends Notification
                         ->line('The is to notify you that a Parent has cancelled request for a Teacher')
                         ->line('Parent details below:')
                         ->line('Name: ' . $this->parent->name)
-                        ->line('Email: ' . $this->parent->phone)
+                        ->line('Email: ' . $this->parent->email)
                         ->line('Phone: ' . $this->parent->phone)
                         ->line('Teacher details below:')
                         ->line('Name: ' . $this->teacher->name)
-                        ->line('Email: ' . $this->teacher->phone)
+                        ->line('Email: ' . $this->teacher->email)
                         ->line('Phone: ' . $this->teacher->phone);
     }
 
