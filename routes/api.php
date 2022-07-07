@@ -38,8 +38,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/user/register', [UserController::class, 'store'])->middleware('guest'); // === route to signup
  // route to login
-Route::post('/user/exist/{email}', [UserController::class, 'existEmail'])->middleware('guest'); // Check if User exist
-Route::post('/user/exist/{phone}', [UserController::class, 'existPhone'])->middleware('guest');
+Route::get('/user/exist/{email}', [UserController::class, 'existEmail'])->middleware('guest'); // Check if User exist
+Route::get('/user/exist/{phone}', [UserController::class, 'existPhone'])->middleware('guest');
 
 Route::group([
     'middleware' => 'auth:sanctum',
@@ -66,8 +66,8 @@ Route::group([
         Route::post('delete-user/{id}', [UserController::class, 'destroy']); //route to delete user
 
         Route::get('/parent-teacher/requests', [ParentRequestController::class, 'showAll']); // retrieve all request made by parents
-        Route::get('/parent-requests/{parent-id}', [ParentRequestController::class, 'ShowRequestsByParent']); // retriev all requests made by a parent
-        Route::get('/teacher-requests/{teacher-id}', [ParentRequestController::class, 'ShowRequestsForTeacher']); // retrieve all requests made for a teacher
+        Route::get('/parent-requests/{parent-id}', [ParentRequestController::class, 'ShowRequestsByParent']); // retrieve all requests made by a parent
+        Route::get('/requests', [ParentRequestController::class, 'ShowUserRequests']); // retrieve all requests made for a teacher
 
         // below are route to verify teacher credentials
         Route::post('verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
@@ -115,6 +115,7 @@ Route::group([
           Route::post('/request-teacher', [ParentRequestController::class, 'requestTeacher']); // route to request teacher
           Route::post('/cancel-request-teacher', [ParentRequestController::class, 'cancelRequestTeacher']); // route to cancel request for a teacher
           Route::get('/{id}', [ParentController::class, 'showOne']); // route to get parent by id
+          Route::get('/requests', [ParentRequestController::class, 'ShowUserRequests']); // retrieve all requests made by a parent
     }
 );
 
