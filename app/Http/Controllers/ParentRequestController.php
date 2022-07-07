@@ -34,10 +34,10 @@ class ParentRequestController extends Controller
     public function requestTeacher(Request $request)
     {
         $parent = Auth::user()->role === "parent" ? Auth::user() : null;
-	$id = $request->input("teacher-id");
+        $teacher_id = $request->input("teacher_id");
         if($parent) {
             $teacher = User::where('role', 'teacher')
-                            ->where('id', $id)
+                            ->where('id', $teacher_id)
                             ->first();
             if(!$teacher) {
                 return response()->json([
@@ -79,10 +79,10 @@ class ParentRequestController extends Controller
     public function cancelRequestTeacher(Request $request)
     {
         $parent = Auth::user()->role === "parent" ? Auth::user() : null;
-	$id = $request->input("teacher-id"); 
+        $teacher_id = $request->input("teacher_id");
         if($parent) {
             $teacher = User::where('role', 'teacher')
-                            ->where('id', $id)
+                            ->where('id', $teacher_id)
                             ->first();
             if(!$teacher) {
                 return response()->json([
@@ -90,8 +90,8 @@ class ParentRequestController extends Controller
                 ]);
             }
 
-            $parent_request = ParentRequests::where('parent_id',Auth::user()->id)
-                                                ->where('teacher_id', $id)
+            $parent_request = ParentRequests::where('parent_id',$parent->id)
+                                                ->where('teacher_id', $teacher_id)
                                                 ->first();
 
 
@@ -132,5 +132,28 @@ class ParentRequestController extends Controller
     {
         $requests_by_parent = ParentRequests::where('parent_id', $id)->get();
         return response()->json($requests_by_parent);
+    }
+
+    /**
+     * Get all Requests by a Parent
+     *
+     * @param  integer $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function ShowUserRequests()
+    {
+        $user = Auth::user();
+        if($user->role === "parent") {
+            $requests = ParentRequests::where('parent_id', $user->id)->get();
+        } elseif ($user->role === "parent") {
+            $requests = ParentRequests::where('teacher_id', $user->id)->get();
+        } else {
+            return response()->json([
+                'message' => 'This request can only be made by a Teacher or Parent'
+            ]);
+        }
+        return response()->json($requests);
     }
 }
