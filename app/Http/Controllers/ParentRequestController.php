@@ -147,7 +147,7 @@ class ParentRequestController extends Controller
         $user = Auth::user();
         if($user->role === "parent") {
             $requests = ParentRequests::where('parent_id', $user->id)->get();
-        } elseif ($user->role === "parent") {
+        } elseif ($user->role === "teacher") {
             $requests = ParentRequests::where('teacher_id', $user->id)->get();
         } else {
             return response()->json([
