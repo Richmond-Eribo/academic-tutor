@@ -54,7 +54,7 @@ class ParentRequestNotification extends Notification
             ->line('Phone: ' . $this->parent->phone)
             ->line('Teacher details below:')
             ->line('Name: ' . $this->teacher->name)
-            ->line('Email: ' . $this->teacher->phone)
+            ->line('Email: ' . $this->teacher->email)
             ->line('Phone: ' . $this->teacher->phone)
             ->line('Subjects: ' . json_decode($this->teacher->subject));
     }
