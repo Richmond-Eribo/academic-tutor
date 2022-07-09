@@ -332,9 +332,7 @@ class UserController extends Controller
      * @return void
      */
     public function uploadFile($filename, $file) {
-        if($filename && $file) {
-            Storage::putFileAs('public/', $file, $filename);
-        }
+        Storage::putFileAs('public/', $file, $filename);
     }
 
      /**
