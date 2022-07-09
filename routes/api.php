@@ -69,6 +69,8 @@ Route::group([
         Route::get('/parent-requests/{parent-id}', [ParentRequestController::class, 'ShowRequestsByParent']); // retrieve all requests made by a parent
         Route::get('/teacher-requests/{teacher-id}', [ParentRequestController::class, 'ShowRequestsForTeacher']); // retrieve all requests made for a teacher
         
+        Route::get('/credentials{id}', [TeacherController::class, 'showCredentials']); //route to get all teacher credentials details
+
         // below are route to verify teacher credentials
         Route::post('verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
         Route::post('verify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'dbs_certificate']);
@@ -99,7 +101,7 @@ Route::group([
     'prefix' => 'teacher'
     ], function () {
           Route::get('/', [TeacherController::class, 'showAll']); //route to get all teachers
-          Route::get('/credentials/{$email}', [TeacherController::class, 'showAll']); //route to get all teacher credentials details
+          Route::get('/credentials', [TeacherController::class, 'showCredentials']); //route to get all teacher credentials details
           Route::get('/verified', [TeacherController::class, 'showAllVerified']); // route to get all verified teachers
           Route::get('/{id}', [TeacherController::class, 'showOne']); // route to get teacher by id
           Route::get('/verified/{id}', [TeacherController::class, 'showOneVerified']); // route to get verified teacher by id

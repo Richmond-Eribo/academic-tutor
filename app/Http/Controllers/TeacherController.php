@@ -7,6 +7,7 @@ use App\Events\TeacherVerified;
 use App\Models\TeacherCredential;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
@@ -20,6 +21,28 @@ class TeacherController extends Controller
         $teachers = User::where('role', 'teacher')->get();
 
         return response()->json($teachers);
+    }
+
+    /**
+     * Get all Teachers.
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showCredentials($id)
+    {
+        if(Auth::user()->role === "teacher") {
+            $email = Auth::user()->email;
+            
+        } else {
+            $user = User::findOrFail($id);
+            $email = $user->email;
+        }
+        
+        $credentials = TeacherCredential::where('email', $email)->first();
+        if($credentials) {
+            return response()->json($credentials);
+        }
+        
     }
 
 
