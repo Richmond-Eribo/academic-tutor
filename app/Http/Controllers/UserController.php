@@ -284,20 +284,20 @@ class UserController extends Controller
  
                 $signature = $request->file('signature') ? $request->file('signature') : null;
                 if($signature) {
-                    $signature_fileName = $email.'/_signature.'. $signature->getClientOriginalExtension();
+                    $signature_fileName =  $email.'/_signature.'. $signature->getClientOriginalExtension();
                 }
 
                 if($teacher_credential->save()) {
-                    $this->uploadFile($right_to_work_fileName, $right_to_work);
-                    $this->uploadFile($dbs_certificate_fileName, $dbs_certificate);
-                    $this->uploadFile($educational_qualification_fileName, $educational_qualification);
-                    $this->uploadFile($qts_fileName, $qts);
-                    $this->uploadFile($passport_id_or_driver_license_fileName, $passport_id_or_driver_license);
-                    $this->uploadFile($passport_photo_fileName, $passport_photo);
-                    $this->uploadFile($proof_of_address_fileName, $proof_of_address);
-                    $this->uploadFile($national_insurance_number_fileName, $national_insurance_number);
-                    $this->uploadFile($permit_or_id_fileName, $permit_or_id);
-                    $this->uploadFile($signature_fileName, $signature);
+                    $right_to_work ? $this->uploadFile($right_to_work_fileName, $right_to_work) : null;
+                    $dbs_certificate ? $this->uploadFile($dbs_certificate_fileName, $dbs_certificate) : null;
+                    $educational_qualification ? $this->uploadFile($educational_qualification_fileName, $educational_qualification) : null;
+                    $qts ? $this->uploadFile($qts_fileName, $qts) : null;
+                    $passport_id_or_driver_license ? $this->uploadFile($passport_id_or_driver_license_fileName, $passport_id_or_driver_license) : null;
+                    $passport_photo ? $this->uploadFile($passport_photo_fileName, $passport_photo) : null;
+                    $proof_of_address ? $this->uploadFile($proof_of_address_fileName, $proof_of_address) : null;
+                    $national_insurance_number ? $this->uploadFile($national_insurance_number_fileName, $national_insurance_number) : null;
+                    $permit_or_id ? $this->uploadFile($permit_or_id_fileName, $permit_or_id) : null;
+                    $signature ? $this->uploadFile($signature_fileName, $signature) : null;
                 }
             }
 
