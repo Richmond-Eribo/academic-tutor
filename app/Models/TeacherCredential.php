@@ -24,7 +24,6 @@ class TeacherCredential extends Model
         'ref_relationship',
         'ref_organisation',
         'ref_position',
-        'profile',
     ];
 
     /**
