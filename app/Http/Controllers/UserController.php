@@ -389,6 +389,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function downloadFile($email, $name) {
+        
         $filename = $email. '/' .$name;
         if(Storage::disk('local')->exists('public/'.$filename)) {
             return Storage::download('public/'.$filename, $email.$name);
