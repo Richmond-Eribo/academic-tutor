@@ -67,8 +67,8 @@ Route::group([
 
         Route::get('/parent-teacher/requests', [ParentRequestController::class, 'showAll']); // retrieve all request made by parents
         Route::get('/parent-requests/{parent-id}', [ParentRequestController::class, 'ShowRequestsByParent']); // retrieve all requests made by a parent
-        Route::get('/requests', [ParentRequestController::class, 'ShowUserRequests']); // retrieve all requests made for a teacher
-
+        Route::get('/teacher-requests/{teacher-id}', [ParentRequestController::class, 'ShowRequestsForTeacher']); // retrieve all requests made for a teacher
+        
         // below are route to verify teacher credentials
         Route::post('verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
         Route::post('verify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'dbs_certificate']);
@@ -105,6 +105,7 @@ Route::group([
           Route::get('/verified/{id}', [TeacherController::class, 'showOneVerified']); // route to get verified teacher by id
           Route::get('/unverified', [TeacherController::class, 'showAllNotVerified']); // route to get all unverified teachers
           Route::get('/unverified/{id}', [TeacherController::class, 'showOneNotVerified']); // route to get unverified teacher by id
+          Route::get('/requests', [ParentRequestController::class, 'ShowUserRequests']); // retrieve all requests made for a teacher
     }
 );
 Route::group([
