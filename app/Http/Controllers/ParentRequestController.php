@@ -19,8 +19,8 @@ class ParentRequestController extends Controller
 
     public function showAll()
     {
-        $requests_by_parent = ParentRequests::all();
-        return response()->json($requests_by_parent);
+        $requests = ParentRequests::all();
+        return response()->json($requests);
     } 
     
     /**
