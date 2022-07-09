@@ -69,7 +69,7 @@ Route::group([
         Route::get('/parent-requests/{parent-id}', [ParentRequestController::class, 'ShowRequestsByParent']); // retrieve all requests made by a parent
         Route::get('/teacher-requests/{teacher-id}', [ParentRequestController::class, 'ShowRequestsForTeacher']); // retrieve all requests made for a teacher
         
-        Route::get('/credentials{id}', [TeacherController::class, 'showCredentials']); //route to get all teacher credentials details
+        Route::get('/credentials/{id}', [TeacherController::class, 'showCredentials']); //route to get all teacher credentials details
 
         // below are route to verify teacher credentials
         Route::post('verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
