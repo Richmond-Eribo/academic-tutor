@@ -65,11 +65,11 @@ Route::group([
 	    Route::get('/get-users', [UserController::class, 'showAll']); // route to get all users 
         Route::post('delete-user/{id}', [UserController::class, 'destroy']); //route to delete user
 
-        Route::get('/parent-teacher/requests', [ParentRequestController::class, 'showAll']); // retrieve all request made by parents
-        Route::get('/parent-requests/{parent-id}', [ParentRequestController::class, 'ShowRequestsByParent']); // retrieve all requests made by a parent
-        Route::get('/teacher-requests/{teacher-id}', [ParentRequestController::class, 'ShowRequestsForTeacher']); // retrieve all requests made for a teacher
+        Route::get('/requests', [ParentRequestController::class, 'showAll']); // retrieve all request made by parents
+        Route::get('/requests/parent/{parent-id}', [ParentRequestController::class, 'ShowRequestsByParent']); // retrieve all requests made by a parent
+        Route::get('/requests/teacher/{teacher-id}', [ParentRequestController::class, 'ShowRequestsForTeacher']); // retrieve all requests made for a teacher
         
-        Route::get('/credentials/{id}', [TeacherController::class, 'showCredentials']); //route to get all teacher credentials details
+        Route::get('/credentials/{id}', [TeacherCredentialController::class, 'showCredentials']); //route to get all teacher credentials details
 
         // below are route to verify teacher credentials
         Route::post('verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
@@ -101,7 +101,7 @@ Route::group([
     'prefix' => 'teacher'
     ], function () {
           Route::get('/', [TeacherController::class, 'showAll']); //route to get all teachers
-          Route::get('/credentials', [TeacherController::class, 'showCredentials']); //route to get all teacher credentials details
+          Route::get('/credentials', [TeacherCredentialController::class, 'showCredentials']); //route to get all teacher credentials details
           Route::get('/verified', [TeacherController::class, 'showAllVerified']); // route to get all verified teachers
           Route::get('/{id}', [TeacherController::class, 'showOne']); // route to get teacher by id
           Route::get('/verified/{id}', [TeacherController::class, 'showOneVerified']); // route to get verified teacher by id

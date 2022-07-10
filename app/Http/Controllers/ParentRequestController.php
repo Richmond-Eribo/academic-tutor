@@ -20,7 +20,9 @@ class ParentRequestController extends Controller
     public function showAll()
     {
         $requests = ParentRequests::all();
-        return response()->json($requests);
+        if($requests){
+            return response()->json($requests);
+        };
     } 
     
     /**
@@ -36,12 +38,10 @@ class ParentRequestController extends Controller
         $parent = Auth::user()->role === "parent" ? Auth::user() : null;
         $teacher_id = $request->input("teacher_id");
         if($parent) {
-            $teacher = User::where('role', 'teacher')
-                            ->where('id', $teacher_id)
-                            ->first();
+            $teacher = User::where("role", "teacher")->where("id", $teacher_id)->first();
             if(!$teacher) {
                 return response()->json([
-                    'message' => 'User requested for is not a Teacher'
+                    "message" => "User requested for is not a Teacher"
                 ]);
             }
 
@@ -64,7 +64,7 @@ class ParentRequestController extends Controller
         }
 
         return response()->json([
-            'message' => 'This User is not a Parent'
+            "message" => "This User is not a Parent"
         ]);
     }
 
@@ -81,17 +81,17 @@ class ParentRequestController extends Controller
         $parent = Auth::user()->role === "parent" ? Auth::user() : null;
         $teacher_id = $request->input("teacher_id");
         if($parent) {
-            $teacher = User::where('role', 'teacher')
-                            ->where('id', $teacher_id)
+            $teacher = User::where("role", "teacher")
+                            ->where("id", $teacher_id)
                             ->first();
             if(!$teacher) {
                 return response()->json([
-                    'message' => 'Teacher requested for is not valid'
+                    "message" => "Teacher requested for is not valid"
                 ]);
             }
 
-            $parent_request = ParentRequests::where('parent_id',$parent->id)
-                                                ->where('teacher_id', $teacher_id)
+            $parent_request = ParentRequests::where("parent_id",$parent->id)
+                                                ->where("teacher_id", $teacher_id)
                                                 ->first();
 
 
@@ -102,7 +102,7 @@ class ParentRequestController extends Controller
         }
 
         return response()->json([
-            'message' => 'This User is not a parent'
+            "message" => "This User is not a parent"
         ]);
     }
 
@@ -116,7 +116,7 @@ class ParentRequestController extends Controller
 
     public function ShowRequestsForTeacher($id)
     {
-        $requests_for_teacher = ParentRequests::where('teacher_id', $id)->get();
+        $requests_for_teacher = ParentRequests::where("teacher_id", $id)->get();
         return response()->json($requests_for_teacher);
     }
 
@@ -130,7 +130,7 @@ class ParentRequestController extends Controller
 
     public function ShowRequestsByParent($id)
     {
-        $requests_by_parent = ParentRequests::where('parent_id', $id)->get();
+        $requests_by_parent = ParentRequests::where("parent_id", $id)->get();
         return response()->json($requests_by_parent);
     }
 
@@ -145,13 +145,14 @@ class ParentRequestController extends Controller
     public function ShowUserRequests()
     {
         $user = Auth::user();
+
         if($user->role === "parent") {
-            $requests = ParentRequests::where('parent_id', $user->id)->get();
+            $requests = ParentRequests::where("parent_id", $user->id)->get();
         } elseif ($user->role === "teacher") {
-            $requests = ParentRequests::where('teacher_id', $user->id)->get();
+            $requests = ParentRequests::where("teacher_id", $user->id)->get();
         } else {
             return response()->json([
-                'message' => 'This request can only be made by a Teacher or Parent'
+                "message" => "This request can only be made by a Teacher or Parent"
             ]);
         }
         return response()->json($requests);

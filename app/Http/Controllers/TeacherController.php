@@ -23,28 +23,6 @@ class TeacherController extends Controller
         return response()->json($teachers);
     }
 
-    /**
-     * Get all Teachers.
-     * 
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function showCredentials($id)
-    {
-        if(Auth::user()->role === "teacher") {
-            $email = Auth::user()->email;
-            
-        } else {
-            $user = User::findOrFail($id);
-            $email = $user->email;
-        }
-        
-        $credentials = TeacherCredential::where('email', $email)->first();
-        if($credentials) {
-            return response()->json($credentials);
-        }
-        
-    }
-
 
     /**
      * Get one Teacher.
