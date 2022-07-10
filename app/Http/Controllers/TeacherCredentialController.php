@@ -6,26 +6,30 @@ use App\Events\TeacherVerified;
 use App\Models\TeacherCredential;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherCredentialController extends Controller
 {
     /**
-     * Verify Teacher.
+     * Get all Teachers.
      * 
-     * @return bool
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function showCredentials($email)
+    public function showCredentials($id)
     {
-        $teacher_credential = TeacherCredential::where('email', $email);
-
-        if($teacher_credential) {
-            return response()->json($teacher_credential); 
+        if(Auth::user()->role === "teacher") {
+            $email = Auth::user()->email;
+            
+        } else {
+            $user = User::findOrFail($id);
+            $email = $user->email;
         }
-
-        return response()->json([
-            'error' => 'This user is not  teacher'
-        ]);
-
+        
+        $credentials = TeacherCredential::where('email', $email)->first();
+        if($credentials) {
+            return response()->json($credentials);
+        }
+        
     }
     /**
      * Verify Teacher.
@@ -34,7 +38,7 @@ class TeacherCredentialController extends Controller
      */
     public function isverified($teacher)
     {               
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
+        $teacher_credential = TeacherCredential::where('email', $teacher->email)->first();
 
         if(
             $teacher_credential->right_to_work_isverified &&
@@ -46,8 +50,9 @@ class TeacherCredentialController extends Controller
             $teacher_credential->proof_of_address_isverified &&
             $teacher_credential->national_insurance_number_isverified &&
             $teacher_credential->permit_or_id_isverified
-        ) {
-            $teacher_credential->verified = true;
+        ) 
+        {
+            $teacher_credential->verified = 1;
 
             if($teacher_credential->save()) {
                 return true;
@@ -64,24 +69,26 @@ class TeacherCredentialController extends Controller
      */
     public function right_to_work($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->right_to_work_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->right_to_work_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
+
+        return response()->json([
+            'message' => 'Error saving Teacher Credentials'
+        ]);
     }
 
      /**
@@ -91,21 +98,19 @@ class TeacherCredentialController extends Controller
      */
     public function dbs_certificate($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->dbs_certificate_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->dbs_certificate_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
@@ -119,21 +124,19 @@ class TeacherCredentialController extends Controller
      */
     public function educational_qualification($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->educational_qualification_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->educational_qualification_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
@@ -147,21 +150,19 @@ class TeacherCredentialController extends Controller
      */
     public function qts($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->qts_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->qts_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
@@ -174,21 +175,19 @@ class TeacherCredentialController extends Controller
      */
     public function passport_id_or_driver_license($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->passport_id_or_driver_license_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->passport_id_or_driver_license_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
@@ -202,21 +201,19 @@ class TeacherCredentialController extends Controller
      */
     public function passport_photo($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->passport_photo_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->passport_photo_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
@@ -229,21 +226,19 @@ class TeacherCredentialController extends Controller
      */
     public function proof_of_address($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->proof_of_address_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->proof_of_address_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
@@ -256,21 +251,19 @@ class TeacherCredentialController extends Controller
      */
     public function national_insurance_number($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->national_insurance_number_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->national_insurance_number_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
@@ -283,21 +276,19 @@ class TeacherCredentialController extends Controller
      */
     public function permit_or_id($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->permit_or_id_isverified = true;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->permit_or_id_isverified = 1;
 
         if($teacher_credential->save()) {
-            if($this->isverified($teacher)) {
-                TeacherVerified::dispatch($teacher);
+            if($this->isverified($user)) {
+                TeacherVerified::dispatch($user);
             }
             return response()->json($teacher_credential);
         }
@@ -312,7 +303,7 @@ class TeacherCredentialController extends Controller
      */
     public function unverify($teacher)
     {
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
+        $teacher_credential = TeacherCredential::where('email', $teacher->email)->first();
        
         if(
             $teacher_credential->right_to_work_isverified ||
@@ -325,7 +316,7 @@ class TeacherCredentialController extends Controller
             $teacher_credential->national_insurance_number_isverified ||
             $teacher_credential->permit_or_id_isverified
         ) {
-            $teacher_credential->verified = false;
+            $teacher_credential->verified = 0;
 
             if($teacher_credential->save()) {
                 TeacherVerified::dispatch($teacher);
@@ -341,27 +332,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_right_to_work($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-            if($was_verified) {
-                $this->unveirfy($teacher);
-            }
-
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->right_to_work_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->right_to_work_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
@@ -374,23 +359,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_dbs_certificate($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->dbs_certificate_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->dbs_certificate_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
@@ -404,23 +387,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_educational_qualification($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->educational_qualification_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->educational_qualification_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
@@ -434,23 +415,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_qts($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->qts_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->qts_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
@@ -463,23 +442,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_passport_id_or_driver_license($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->passport_id_or_driver_license_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->passport_id_or_driver_license_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
@@ -493,23 +470,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_passport_photo($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->passport_photo_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->passport_photo_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
@@ -522,23 +497,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_proof_of_address($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->proof_of_address_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->proof_of_address_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
@@ -551,23 +524,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_national_insurance_number($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->national_insurance_number_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->national_insurance_number_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
@@ -580,23 +551,21 @@ class TeacherCredentialController extends Controller
      */
     public function not_permit_or_id($id)
     {               
-        $teacher = User::where('role', 'teacher')
-                    ->where('id', $id)
-                    ->first();
-        if(!$teacher) {
+        $user = User::findOrFail($id);
+        if($user->role !== "teacher") {
             return response()->json([
-                'message' => 'Not a Teacher'
+                'message' => 'Can only verify a Teacher'
             ]);
         }
 
-        $was_verified = $this->isverified($teacher);
+        $was_verified = $this->isverified($user);
 
-        $teacher_credential = TeacherCredential::where('email', $teacher->email);
-        $teacher_credential->permit_or_id_isverified = false;
+        $teacher_credential = TeacherCredential::where('email', $user->email)->first();
+        $teacher_credential->permit_or_id_isverified = 0;
 
         if($teacher_credential->save()) {
             if($was_verified) {
-                $this->unverify($teacher);
+                $this->unverify($user);
             }
             return response()->json($teacher_credential);
         }
