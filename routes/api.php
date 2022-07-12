@@ -72,26 +72,26 @@ Route::group([
         Route::get('/credentials/{id}', [TeacherCredentialController::class, 'showCredentials']); //route to get all teacher credentials details
 
         // below are route to verify teacher credentials
-        Route::post('verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
-        Route::post('verify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'dbs_certificate']);
-        Route::post('verify-teacher/educational-qualification/{id}', [TeacherCredentialController::class, 'educational_qualification']);
-        Route::post('verify-teacher/qts/{id}', [TeacherCredentialController::class, 'qts']);
-        Route::post('verify-teacher/passport-or-driver-license/{id}', [TeacherCredentialController::class, 'passport_id_or_driver_license']);
-        Route::post('verify-teacher/passport-photo/{id}', [TeacherCredentialController::class, 'passport_photo']);
-        Route::post('verify-teacher/proof-of-address/{id}', [TeacherCredentialController::class, 'proof_of_address']);
-        Route::post('verify-teacher/national-insurance-number/{id}', [TeacherCredentialController::class, 'national_insurance_number']);
-        Route::post('verify-teacher/permit-or-id/{id}', [TeacherCredentialController::class, 'permit_or_id']);
+        Route::post('/verify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'right_to_work']);
+        Route::post('/verify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'dbs_certificate']);
+        Route::post('/verify-teacher/educational-qualification/{id}', [TeacherCredentialController::class, 'educational_qualification']);
+        Route::post('/verify-teacher/qts/{id}', [TeacherCredentialController::class, 'qts']);
+        Route::post('/verify-teacher/passport-or-driver-license/{id}', [TeacherCredentialController::class, 'passport_id_or_driver_license']);
+        Route::post('/verify-teacher/passport-photo/{id}', [TeacherCredentialController::class, 'passport_photo']);
+        Route::post('/verify-teacher/proof-of-address/{id}', [TeacherCredentialController::class, 'proof_of_address']);
+        Route::post('/verify-teacher/national-insurance-number/{id}', [TeacherCredentialController::class, 'national_insurance_number']);
+        Route::post('/verify-teacher/permit-or-id/{id}', [TeacherCredentialController::class, 'permit_or_id']);
 
         // below are route to unverify teacher credentials
-        Route::post('unverify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'not_right_to_work']); 
-        Route::post('unverify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'not_dbs_certificate']);
-        Route::post('unverify-teacher/educational-qualification/{id}', [TeacherCredentialController::class, 'not_educational_qualification']);
-        Route::post('unverify-teacher/qts/{id}', [TeacherCredentialController::class, 'not_qts']);
-        Route::post('unverify-teacher/passport-or-driver-license/{id}', [TeacherCredentialController::class, 'not_passport_id_or_driver_license']);
-        Route::post('unverify-teacher/passport-photo/{id}', [TeacherCredentialController::class, 'not_passport_photo']);
-        Route::post('unverify-teacher/proof-of-address/{id}', [TeacherCredentialController::class, 'not_proof_of_address']);
-        Route::post('unverify-teacher/national-insurance-number/{id}', [TeacherCredentialController::class, 'not_national_insurance_number']);
-        Route::post('unverify-teacher/permit-or-id/{id}', [TeacherCredentialController::class, 'not_permit_or_id']);
+        Route::post('/unverify-teacher/right-to-work/{id}', [TeacherCredentialController::class, 'not_right_to_work']); 
+        Route::post('/unverify-teacher/dbs-certificate/{id}', [TeacherCredentialController::class, 'not_dbs_certificate']);
+        Route::post('/unverify-teacher/educational-qualification/{id}', [TeacherCredentialController::class, 'not_educational_qualification']);
+        Route::post('/unverify-teacher/qts/{id}', [TeacherCredentialController::class, 'not_qts']);
+        Route::post('/unverify-teacher/passport-or-driver-license/{id}', [TeacherCredentialController::class, 'not_passport_id_or_driver_license']);
+        Route::post('/unverify-teacher/passport-photo/{id}', [TeacherCredentialController::class, 'not_passport_photo']);
+        Route::post('/unverify-teacher/proof-of-address/{id}', [TeacherCredentialController::class, 'not_proof_of_address']);
+        Route::post('/unverify-teacher/national-insurance-number/{id}', [TeacherCredentialController::class, 'not_national_insurance_number']);
+        Route::post('/unverify-teacher/permit-or-id/{id}', [TeacherCredentialController::class, 'not_permit_or_id']);
     }
 );
 
@@ -129,7 +129,7 @@ Route::group([
 // Reset Password Routes
 
 // this route is used to send the password-reset mail
-Route::post('user/forgot-password', function (Request $request) {
+Route::post('/user/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
 
     $status = Password::sendResetLink(
@@ -142,12 +142,12 @@ Route::post('user/forgot-password', function (Request $request) {
 })->middleware('guest')->name('password.email');
 
 // this route is for the password reset link sent to the user
-Route::get('user/reset-password/{token}', function($token) {
+Route::get('/user/reset-password/{token}', function($token) {
     return ['token' => $token]; 
 })->middleware('guest')->name('password.reset');
 
 //this route handles password reset submission
-Route::post('user/reset-password', function(Request $request) {
+Route::post('/user/reset-password', function(Request $request) {
     $request->validate([
         'token' => 'required',
         'email' => 'required|email',
