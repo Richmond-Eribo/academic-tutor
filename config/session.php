@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('.academictutor.org.uk'),
+    'domain' => '.academictutor.org.uk',
 
     /*
     |--------------------------------------------------------------------------
