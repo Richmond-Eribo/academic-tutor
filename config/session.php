@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => '.academictutor.org.uk',
+    'domain' => '.academictutors.org.uk',
 
     /*
     |--------------------------------------------------------------------------
