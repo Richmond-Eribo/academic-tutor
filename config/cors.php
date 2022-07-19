@@ -21,13 +21,13 @@ return [
 
     'allowed_origins' => ['*.academictutors.org.uk'],
 
-    'allowed_origins_patterns' => ['*'],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 
-    'max_age' => 600,
+    'max_age' => 0,
 
     'supports_credentials' => true,
 
