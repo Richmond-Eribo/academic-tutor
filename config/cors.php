@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*.academictutors.org.uk'],
+    'allowed_origins' => ['https://dashboard.academictutors.org.uk'],
 
     'allowed_origins_patterns' => [],
 
