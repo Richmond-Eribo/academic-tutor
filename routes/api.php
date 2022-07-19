@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/user/register', [UserController::class, 'store'])->middleware('guest'); // === route to signup
- // route to login
+
 Route::get('/user/exist/{email}', [UserController::class, 'existEmail'])->middleware('guest'); // Check if User exist
 Route::get('/user/exist/{phone}', [UserController::class, 'existPhone'])->middleware('guest');
 

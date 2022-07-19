@@ -22,6 +22,6 @@ class AdminMiddleware
                 return $next($request);
             }
         }
-        return redirect('/')->with("message", "Access Denied");
+        return $next($request);
     }
 }
