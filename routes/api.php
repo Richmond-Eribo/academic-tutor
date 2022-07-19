@@ -36,10 +36,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/user/register', [UserController::class, 'store'])->middleware('guest'); // === route to signup
+Route::post('/user/register', [UserController::class, 'store']); // route to signup
 
-Route::get('/user/exist/{email}', [UserController::class, 'existEmail'])->middleware('guest'); // Check if User exist
-Route::get('/user/exist/{phone}', [UserController::class, 'existPhone'])->middleware('guest');
+Route::get('/user/exist/{email}', [UserController::class, 'existEmail']); // Check if User exist
+Route::get('/user/exist/{phone}', [UserController::class, 'existPhone']);
 
 Route::group([
     'middleware' => 'auth:sanctum',
@@ -139,12 +139,12 @@ Route::post('/user/forgot-password', function (Request $request) {
     return $status === Password::RESET_LINK_SENT
                 ? back()->with(['status' => __($status)])
                 : back()->withErrors(['email' => __($status)]);
-})->middleware('guest')->name('password.email');
+})->name('password.email');
 
 // this route is for the password reset link sent to the user
 Route::get('/user/reset-password/{token}', function($token) {
     return ['token' => $token]; 
-})->middleware('guest')->name('password.reset');
+})->name('password.reset');
 
 //this route handles password reset submission
 Route::post('/user/reset-password', function(Request $request) {
@@ -170,4 +170,4 @@ Route::post('/user/reset-password', function(Request $request) {
     return $status === Password::PASSWORD_RESET
                 ? redirect()->route('login')->with('status', __($status))
                 : back()->withErrors(['email' => __($status)]);
-})->middleware('guest')->name('password.update');
+})->name('password.update');
