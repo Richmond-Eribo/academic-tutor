@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::post('/login', [AuthController::class, 'login']); // route to login
 Route::post('/logout', [AuthController::class, 'logout']); // route to logout
