@@ -42,7 +42,7 @@ Route::get('/user/exist/{email}', [UserController::class, 'existEmail']); // Che
 Route::get('/user/exist/{phone}', [UserController::class, 'existPhone']);
 
 Route::group([
-    'middleware' => 'auth:sanctum',
+    'middleware' => '',
     'prefix' => 'user'
     ], function () { 
         Route::get('', [UserController::class, 'showUser']); // route to get current authenticated user 
