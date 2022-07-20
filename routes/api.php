@@ -45,7 +45,7 @@ Route::group([
     'middleware' => 'auth:sanctum',
     'prefix' => 'user'
     ], function () { 
-        Route::get('/', [UserController::class, 'showUser']); // route to get current authenticated user 
+        Route::get('', [UserController::class, 'showUser']); // route to get current authenticated user 
         Route::post('/update/{id}', [UserController::class, 'update']); // route to update by id
 
         /* download-file/hello@xample/_profile_picture.jpg 
