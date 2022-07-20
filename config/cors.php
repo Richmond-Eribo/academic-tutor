@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://dashboard.academictutors.org.uk'],
 
-    'allowed_origins_patterns' => ['*.academictutors.org.uk'],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
