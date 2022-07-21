@@ -24,7 +24,7 @@ return [
         academictutors.org.uk:3000,
         academictutors.org.uk:8080,
         dashboard.academictutors.org.uk:3000,
-        api.academictutors.org.uk,
+        api.academictutors.org.uk:8080,
         academictutors.org.uk:3000,
         academictutors.org.uk:8080,
         dashboard.academictutors.org.uk:3000,
