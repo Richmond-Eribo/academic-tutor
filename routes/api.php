@@ -100,7 +100,7 @@ Route::group([
     'middleware' => 'auth:sanctum',
     'prefix' => 'teacher'
     ], function () {
-          Route::get('/', [TeacherController::class, 'showAll']); //route to get all teachers
+          Route::get('', [TeacherController::class, 'showAll']); //route to get all teachers
           Route::get('/credentials', [TeacherCredentialController::class, 'showCredentials']); //route to get all teacher credentials details
           Route::get('/verified', [TeacherController::class, 'showAllVerified']); // route to get all verified teachers
           Route::get('/{id}', [TeacherController::class, 'showOne']); // route to get teacher by id
@@ -114,7 +114,7 @@ Route::group([
     'middleware' => 'auth:sanctum',
     'prefix' => 'parent'
     ], function () {
-          Route::get('/', [ParentController::class, 'showAll']); // route to get all parents
+          Route::get('', [ParentController::class, 'showAll']); // route to get all parents
           Route::post('/request-teacher', [ParentRequestController::class, 'requestTeacher']); // route to request teacher
           Route::post('/cancel-request-teacher', [ParentRequestController::class, 'cancelRequestTeacher']); // route to cancel request for a teacher
           Route::get('/{id}', [ParentController::class, 'showOne']); // route to get parent by id
