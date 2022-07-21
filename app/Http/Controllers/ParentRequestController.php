@@ -148,13 +148,24 @@ class ParentRequestController extends Controller
 
         if($user->role === "parent") {
             $requests = ParentRequests::where("parent_id", $user->id)->get();
+            $response = $requests ? 
+                        response()->json($requests) : 
+                        response()->json([
+                            "message" => "No requests made by you yet"
+                        ]);
         } elseif ($user->role === "teacher") {
             $requests = ParentRequests::where("teacher_id", $user->id)->get();
+            $response = $requests ? 
+                        response()->json($requests) : 
+                        response()->json([
+                            "message" => "No requests available for you yet"
+                        ]);
         } else {
             return response()->json([
                 "message" => "This request can only be made by a Teacher or Parent"
             ]);
         }
-        return response()->json($requests);
+
+        return $response;
     }
 }
