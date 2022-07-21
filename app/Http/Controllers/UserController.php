@@ -202,12 +202,9 @@ class UserController extends Controller
      */
     public function showUser() {
         if(!Auth::user()) {
-            // return response()->json([
-            //     'message' => 'User not found'
-            // ]);
-            $user = User::findOrFail('2');
-            return response()->json($user);
-            
+            return response()->json([
+                'message' => 'User not found'
+            ]);
         }
 
         return response()->json(Auth::user());
