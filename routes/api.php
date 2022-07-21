@@ -103,11 +103,11 @@ Route::group([
           Route::get('', [TeacherController::class, 'showAll']); //route to get all teachers
           Route::get('/credentials', [TeacherCredentialController::class, 'showCredentials']); //route to get all teacher credentials details
           Route::get('/verified', [TeacherController::class, 'showAllVerified']); // route to get all verified teachers
-          Route::get('/{id}', [TeacherController::class, 'showOne']); // route to get teacher by id
           Route::get('/verified/{id}', [TeacherController::class, 'showOneVerified']); // route to get verified teacher by id
           Route::get('/unverified', [TeacherController::class, 'showAllNotVerified']); // route to get all unverified teachers
           Route::get('/unverified/{id}', [TeacherController::class, 'showOneNotVerified']); // route to get unverified teacher by id
           Route::get('/requests', [ParentRequestController::class, 'ShowUserRequests']); // retrieve all requests made for a teacher
+          Route::get('/{id}', [TeacherController::class, 'showOne']); // route to get teacher by id
     }
 );
 Route::group([
@@ -117,8 +117,8 @@ Route::group([
           Route::get('', [ParentController::class, 'showAll']); // route to get all parents
           Route::post('/request-teacher', [ParentRequestController::class, 'requestTeacher']); // route to request teacher
           Route::post('/cancel-request-teacher', [ParentRequestController::class, 'cancelRequestTeacher']); // route to cancel request for a teacher
-          Route::get('/{id}', [ParentController::class, 'showOne']); // route to get parent by id
           Route::get('/requests', [ParentRequestController::class, 'ShowUserRequests']); // retrieve all requests made by a parent
+          Route::get('/{id}', [ParentController::class, 'showOne']); // route to get parent by id
     }
 );
 
