@@ -17,7 +17,18 @@ return [
 
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
         '%s%s',
-        'localhost,localhost:3000,localhost:8000,localhost:3002,127.0.0.1,127.0.0.1:8000,127.0.0.1:3000,::1,academictutors.org.uk',
+        'localhost,localhost:3000,
+        localhost:8000,localhost:3002,
+        127.0.0.1,127.0.0.1:8000,
+        127.0.0.1:3000,::1,
+        academictutors.org.uk:3000,
+        academictutors.org.uk:8080,
+        dashboard.academictutors.org.uk:3000,
+        api.academictutors.org.uk:8080,
+        academictutors.org.uk:3000,
+        academictutors.org.uk:8080,
+        dashboard.academictutors.org.uk,
+        api.academictutors.org.uk',
         Sanctum::currentApplicationUrlWithPort()
     ))),
 

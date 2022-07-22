@@ -201,11 +201,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function showUser() {
-        $user  = Auth::user();
-
-        if($user) {
-            return response()->json($user);
+        if(!Auth::user()) {
+            return response()->json([
+                'message' => 'User not found'
+            ]);
         }
+
+        return response()->json(Auth::user());
     } 
 
 
