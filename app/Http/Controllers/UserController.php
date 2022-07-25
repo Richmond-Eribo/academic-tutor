@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserMailToAdmin;
 use App\Events\UserSignedUp;
 use App\Events\UserUpdated;
 use App\Models\TeacherCredential;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\File;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -20,10 +23,6 @@ class UserController extends Controller
      */
     public function store(Request $request) {
         $user = new User();
-
-        $request->whenFilled('name', function($input) {
-
-        });
 
         $user->name = $request->input('name');
         $email = $request->input('email');
@@ -40,9 +39,7 @@ class UserController extends Controller
             $profile_picture_fileName = $email.'/_profile_picture.'. $profile_picture->getClientOriginalExtension();
             $user->profile_picture = $profile_picture_fileName;
         }
-
-        
-        
+     
         if($user->save()) {
             $request->file('profile_picture') ? $this->uploadFile($profile_picture_fileName, $profile_picture) : null;
 
@@ -161,8 +158,7 @@ class UserController extends Controller
         }
         return false;
     }
-
-   
+  
 
     /**
      * Get all authenticated Users.
@@ -192,6 +188,7 @@ class UserController extends Controller
             return response()->json($user);
         }
     }
+
 
 	/**
      * Get current authenticated User.
@@ -357,6 +354,7 @@ class UserController extends Controller
         }
     }
 
+
      /**
      * Upload user file.
      *
@@ -394,13 +392,15 @@ class UserController extends Controller
         
         $filename = $email. '/' .$name;
         if(Storage::disk('local')->exists('public/'.$filename)) {
-            return Storage::download('public/'.$filename, $email.$name);
+            $path = public_path($filename);
+            return response()->download($path, $filename);
         }
 
         return response()->json([
             'error' => 'file does not exist'
         ]);
     }
+
 
     /**
      * Delete user file
@@ -415,6 +415,7 @@ class UserController extends Controller
         }
         
     }
+
 
     /**
      * get user file.
@@ -436,6 +437,31 @@ class UserController extends Controller
         return response()->json([
             'error' => 'file does not exist'
         ]);
+    }
+
+
+    /**
+     * get user file.
+     *
+     * @param  string $filenmame
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mailAdmin(Request $request) {
+        $user = Auth::user();
+        if($user) {
+            $message = $request->input('message');
+            if(UserMailToAdmin::dispatch($user, $message)) {
+                return response()->json([
+                    'message' => 'success'
+                ]);
+            }; 
+        }
+
+        return response()->json([
+            'message' => 'error sending message'
+        ]);
+        
     }
 
 }

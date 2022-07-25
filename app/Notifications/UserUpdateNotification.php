@@ -45,7 +45,7 @@ class UserUpdateNotification extends Notification
         return (new MailMessage)
                     ->subject('Successful Profile Update!')
                     ->greeting('Hello, '. $this->user->name)
-                    ->line('The is to notify you that your details have been updated successfully')
+                    ->line('This is to notify you that your details have been updated successfully')
                     ->line('Thank you for using our Aademic Tutor!');
     }
 

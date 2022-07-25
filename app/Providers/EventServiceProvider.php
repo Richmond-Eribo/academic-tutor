@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Events\TeacherRequestedFor;
 use App\Events\TeacherRequestedForCancelled;
 use App\Events\TeacherVerified;
+use App\Events\UserMailToAdmin;
 use App\Events\UserSignedUp;
 use App\Events\UserUpdated;
 use App\Listeners\SendCancelParentRequestNotification;
 use App\Listeners\SendParentRequestNotification;
 use App\Listeners\SendSignUpNotification;
+use App\Listeners\SendUserMailToAdminNotification;
 use App\Listeners\SendUserUpdateNotification;
 use App\Listeners\SendVerificationNotification;
 use Illuminate\Auth\Events\Registered;
@@ -42,6 +44,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         TeacherRequestedForCancelled::class => [
             SendCancelParentRequestNotification::class,
+        ],
+        UserMailToAdmin::class => [
+            SendUserMailToAdminNotification::class,
         ],
     ];
 

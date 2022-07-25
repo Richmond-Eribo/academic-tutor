@@ -45,8 +45,7 @@ class SignUpNotification extends Notification
         return (new MailMessage)
                     ->subject('Successful Registration!')
                     ->greeting('Hello, '. $this->user->name)
-                    ->line('The is to notify you of your successful registration.')
-                    ->line('Thank you for using our Aademic Tutor!');
+                    ->line('This is to notify you of your successful registration with us.');
     }
 
     /**

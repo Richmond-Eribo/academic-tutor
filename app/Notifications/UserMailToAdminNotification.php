@@ -7,22 +7,23 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CancelParentRequestNotification extends Notification
+class UserMailToAdminNotification extends Notification
 {
     use Queueable;
-    private $parent;
-    private $teacher;
+    private $user;
+    private $message;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($parent, $teacher)
+    public function __construct($user, $message)
     {
-        $this->parent = $parent;
-        $this->teacher = $teacher;
+        $this->user = $user;
+        $this->message = $message;
     }
+
     /**
      * Get the notification's delivery channels.
      *
@@ -43,17 +44,10 @@ class CancelParentRequestNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                        ->subject('Parent Request Cancelled!')
-                        ->greeting('Hello, Admin')
-                        ->line('This is to notify you that a Parent has cancelled request for a Teacher')
-                        ->line('Parent details below:')
-                        ->line('Name: ' . $this->parent->name)
-                        ->line('Email: ' . $this->parent->email)
-                        ->line('Phone: ' . $this->parent->phone)
-                        ->line('Teacher details below:')
-                        ->line('Name: ' . $this->teacher->name)
-                        ->line('Email: ' . $this->teacher->email)
-                        ->line('Phone: ' . $this->teacher->phone);
+                    ->subject('Message From User, '.$this->user->name)
+                    ->greeting('Hello, Admin')
+                    ->line($this->message);
+                    
     }
 
     /**
