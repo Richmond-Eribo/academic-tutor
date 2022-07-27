@@ -54,6 +54,7 @@ Route::group([
         */
         Route::get('/download-file/{email}/{name}', [UserController::class, 'downloadFile'] );
         Route::get('/get-file-url/{email}/{name}', [UserController::class, 'getFileUrl'] ); 
+        Route::post('/mail-to-admin', [UserController::class, 'mailAdmin']);
     }
 );
 
@@ -143,8 +144,8 @@ Route::post('/user/forgot-password', function (Request $request) {
 
 // this route is for the password reset link sent to the user
 Route::get('/user/reset-password/{token}', function($token) {
-    return ['token' => $token]; 
-})->name('password.reset');
+    return redirect()->away('https://dashboard.academictutors.org.uk/reset-password')->with('token', $token); 
+})->middleware('guest')->name('password.reset');
 
 //this route handles password reset submission
 Route::post('/user/reset-password', function(Request $request) {
@@ -168,6 +169,6 @@ Route::post('/user/reset-password', function(Request $request) {
     );
 
     return $status === Password::PASSWORD_RESET
-                ? redirect()->route('login')->with('status', __($status))
+                ? redirect()->away('https://dashboard.academictutors.org.uk/login')->with('status', __($status))
                 : back()->withErrors(['email' => __($status)]);
 })->name('password.update');

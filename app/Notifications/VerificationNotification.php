@@ -44,9 +44,8 @@ class VerificationNotification extends Notification
         return (new MailMessage)
                     ->subject('Verification Status Change!')
                     ->greeting('Hello, '. $this->teacher->name)
-                    ->line('The is to notify that there has been a change in your verification status')
-                    ->line('Login in to your profile to confirm')
-                    ->line('Thank you for using our Aademic Tutor!');
+                    ->line('This is to notify that there has been a change in your verification status')
+                    ->line('Log in to your profile to confirm');
     }
 
     /**
