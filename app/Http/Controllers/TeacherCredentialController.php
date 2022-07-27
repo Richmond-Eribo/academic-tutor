@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class TeacherCredentialController extends Controller
 {
     /**
-     * Get all Teachers.
+     * Get all Teacher Credentials.
      * 
      * @return \Illuminate\Http\JsonResponse
      */
@@ -32,7 +32,7 @@ class TeacherCredentialController extends Controller
         
     }
     /**
-     * Verify Teacher.
+     * Check and Verify Teacher.
      * 
      * @return bool
      */

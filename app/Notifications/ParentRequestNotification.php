@@ -45,9 +45,9 @@ class ParentRequestNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Parent Request Made!')
+            ->subject('Parent Request!')
             ->greeting('Hello, Admin')
-            ->line('The is to notify you that a Parent has made a request for a Teacher')
+            ->line('This is to notify you that a Parent has made a request for a Teacher')
             ->line('Parent details below:')
             ->line('Name: ' . $this->parent->name)
             ->line('Email: ' . $this->parent->email)
