@@ -347,6 +347,18 @@ class UserController extends Controller
     public function destroy($id) {
         $user  = User::findOrFail($id);
 
+        if($user->role === "teacher") {
+            $teacher_credentials = TeacherCredential::where('email', $user->email)->first();
+            if($user->delete() && $teacher_credentials->delete()) {
+                if(Storage::exists($user->email)) {
+                    Storage::deleteDirectory($user->email);
+                }
+                
+                return response()->json([
+                    'message' => 'User Deleted'
+                ]);
+            }
+        }
         if($user->delete()) {
             return response()->json([
                 'message' => 'User Deleted'
