@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\TeacherRequestedFor;
 use App\Events\TeacherRequestedForCancelled;
-use App\Models\ParentRequests;
+use App\Models\ParentRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +19,7 @@ class ParentRequestController extends Controller
 
     public function showAll()
     {
-        $requests = ParentRequests::all();
+        $requests = ParentRequest::all();
         if($requests){
             return response()->json($requests);
         };
@@ -45,7 +45,7 @@ class ParentRequestController extends Controller
                 ]);
             }
 
-            $parent_request = new ParentRequests();
+            $parent_request = new ParentRequest();
 
             $parent_request->parent_id = $parent->id;
             $parent_request->parent_name = $parent->name;
@@ -90,7 +90,7 @@ class ParentRequestController extends Controller
                 ]);
             }
 
-            $parent_request = ParentRequests::where("parent_id",$parent->id)
+            $parent_request = ParentRequest::where("parent_id",$parent->id)
                                                 ->where("teacher_id", $teacher_id)
                                                 ->first();
 
@@ -116,7 +116,7 @@ class ParentRequestController extends Controller
 
     public function ShowRequestsForTeacher($id)
     {
-        $requests_for_teacher = ParentRequests::where("teacher_id", $id)->get();
+        $requests_for_teacher = ParentRequest::where("teacher_id", $id)->get();
         return response()->json($requests_for_teacher);
     }
 
@@ -130,7 +130,7 @@ class ParentRequestController extends Controller
 
     public function ShowRequestsByParent($id)
     {
-        $requests_by_parent = ParentRequests::where("parent_id", $id)->get();
+        $requests_by_parent = ParentRequest::where("parent_id", $id)->get();
         return response()->json($requests_by_parent);
     }
 
@@ -147,14 +147,14 @@ class ParentRequestController extends Controller
         $user = Auth::user();
 
         if($user->role === "parent") {
-            $requests = ParentRequests::where("parent_id", $user->id)->get();
+            $requests = ParentRequest::where("parent_id", $user->id)->get();
             $response = empty($requests) ?  
                         response()->json([
                             "message" => "No requests made by you yet"
                         ]) :
                         response()->json($requests);
         } elseif ($user->role === "teacher") {
-            $requests = ParentRequests::where("teacher_id", $user->id)->get();
+            $requests = ParentRequest::where("teacher_id", $user->id)->get();
             $response = empty($requests) ?  
                         response()->json([
                             "message" => "No requests available for you yet"
